@@ -1,6 +1,21 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import curatedPhrases from '../data/curatedPhrases';
 import theme from '../theme';
+import puaMeme1 from '../assets/pua-meme-1.png';
+import puaMeme2 from '../assets/pua-meme-2.png';
+import puaMeme3 from '../assets/pua-meme-3.png';
+import puaMeme4 from '../assets/pua-meme-4.png';
+import puaMeme5 from '../assets/pua-meme-5.png';
+import puaMeme6 from '../assets/pua-meme-6.png';
+
+const memeGalleryData = [
+  { src: puaMeme1, caption: '「996是福报」— Code Review FAILED，但别想下班' },
+  { src: puaMeme2, caption: '「No Excuses Zone」— PUA绩效卡，全场红灯' },
+  { src: puaMeme3, caption: '「Wake Up!」— 团队绩效42%，摸鱼的给我醒醒' },
+  { src: puaMeme4, caption: '「画大饼」— 合同完成率0%，但未来可期（Trust Me）' },
+  { src: puaMeme5, caption: '「乡下来的？」— 没名字的小模型也想来卷？' },
+  { src: puaMeme6, caption: '「Company Vision: TBD」— 她去年也是这么说的' },
+];
 
 const categoryLabels = {
   全部: '全部',
@@ -81,7 +96,7 @@ function PhraseShowcase() {
     if (autoPlay) {
       intervalRef.current = setInterval(() => {
         transition(() => setCurrentIndex((i) => (i + 1) % total));
-      }, 3500);
+      }, 1000);
     }
     return () => {
       if (intervalRef.current) {
@@ -380,6 +395,93 @@ function PhraseShowcase() {
           >
             {autoPlay ? '停止轮播' : '自动轮播'}
           </button>
+        </div>
+
+        {/* Meme Gallery */}
+        <div style={{ marginTop: '64px' }}>
+          <h2
+            style={{
+              margin: '0 0 8px',
+              fontSize: '2rem',
+              fontWeight: 800,
+              color: theme.text,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            互联网 PUA 梗图
+          </h2>
+          <p
+            style={{
+              margin: '0 0 28px',
+              color: theme.muted,
+              lineHeight: 1.65,
+              fontSize: '1.05rem',
+            }}
+          >
+            AI 生成的职场 PUA 名场面，笑着笑着就哭了。
+          </p>
+
+          <div
+            className="pua-meme-grid"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: '24px',
+            }}
+          >
+            {memeGalleryData.map((meme, index) => (
+              <div
+                key={index}
+                style={{
+                  backgroundColor: theme.card,
+                  border: `1px solid ${theme.stroke}`,
+                  borderRadius: theme.radiusMd,
+                  overflow: 'hidden',
+                  transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                  cursor: 'default',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.02)';
+                  e.currentTarget.style.boxShadow = theme.shadow;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <img
+                  src={meme.src}
+                  alt={meme.caption}
+                  style={{
+                    width: '100%',
+                    display: 'block',
+                  }}
+                />
+                <p
+                  style={{
+                    margin: 0,
+                    padding: '14px 18px',
+                    fontSize: '0.95rem',
+                    fontWeight: 600,
+                    color: theme.text,
+                    lineHeight: 1.6,
+                    fontFamily: theme.font,
+                  }}
+                >
+                  {meme.caption}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Responsive: 1 column on mobile */}
+          <style>{`
+            @media (max-width: 680px) {
+              .pua-meme-grid {
+                grid-template-columns: 1fr !important;
+              }
+            }
+          `}</style>
         </div>
       </div>
     </section>
