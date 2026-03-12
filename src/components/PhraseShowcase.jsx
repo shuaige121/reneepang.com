@@ -1,13 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import phrasePairs from '../data/phrasePairs';
-
-const colors = {
-  primary: '#DC2626',
-  secondary: '#F59E0B',
-  dark: '#1F2937',
-  light: '#F9FAFB',
-  text: '#111827',
-};
+import curatedPhrases from '../data/curatedPhrases';
+import theme from '../theme';
 
 const categoryLabels = {
   全部: '全部',
@@ -20,201 +13,75 @@ const categoryLabels = {
   slop_padding: 'AI废话',
 };
 
-const styles = {
-  section: {
-    background: `linear-gradient(180deg, #FFFFFF 0%, ${colors.light} 100%)`,
-    padding: '84px 24px',
-  },
-  container: {
-    maxWidth: '1100px',
-    margin: '0 auto',
-  },
-  heading: {
-    margin: '0 0 12px',
-    fontSize: '2rem',
-    color: colors.text,
-  },
-  subheading: {
-    margin: '0 0 30px',
-    color: '#4B5563',
-    lineHeight: 1.65,
-  },
-  filterRow: {
-    display: 'flex',
-    gap: '8px',
-    flexWrap: 'wrap',
-    marginBottom: '18px',
-  },
-  filterBtn: {
-    border: '1px solid #D1D5DB',
-    borderRadius: '20px',
-    padding: '6px 14px',
-    fontSize: '0.85rem',
-    fontWeight: 600,
-    cursor: 'pointer',
-    backgroundColor: '#FFFFFF',
-    color: '#374151',
-    transition: 'all 0.2s ease',
-  },
-  filterBtnActive: {
-    backgroundColor: colors.primary,
-    color: '#FFFFFF',
-    border: `1px solid ${colors.primary}`,
-  },
-  panel: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-    gap: '18px',
-    marginBottom: '20px',
-  },
-  block: {
-    borderRadius: '14px',
-    padding: '22px',
-    minHeight: '176px',
-    border: '1px solid #E5E7EB',
-  },
-  llmBlock: {
-    backgroundColor: '#F3F4F6',
-  },
-  puaBlock: {
-    background: 'linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%)',
-    border: '1px solid #FCA5A5',
-  },
-  label: {
-    margin: '0 0 10px',
-    fontSize: '0.92rem',
-    fontWeight: 700,
-    color: '#374151',
-    letterSpacing: '0.02em',
-  },
-  meta: {
-    display: 'flex',
-    gap: '8px',
-    marginTop: '12px',
-  },
-  tag: {
-    display: 'inline-block',
-    padding: '2px 8px',
-    borderRadius: '10px',
-    fontSize: '0.75rem',
-    fontWeight: 600,
-  },
-  categoryTag: {
-    backgroundColor: '#DBEAFE',
-    color: '#1E40AF',
-  },
-  severityLow: {
-    backgroundColor: '#D1FAE5',
-    color: '#065F46',
-  },
-  severityMedium: {
-    backgroundColor: '#FEF3C7',
-    color: '#92400E',
-  },
-  severityHigh: {
-    backgroundColor: '#FEE2E2',
-    color: '#991B1B',
-  },
-  quote: {
-    margin: 0,
-    fontSize: '1.02rem',
-    lineHeight: 1.75,
-    color: colors.text,
-  },
-  controlRow: {
-    display: 'flex',
-    gap: '10px',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-  },
-  button: {
-    border: 'none',
-    borderRadius: '10px',
-    padding: '10px 16px',
-    fontSize: '0.92rem',
-    fontWeight: 700,
-    cursor: 'pointer',
-  },
-  primaryBtn: {
-    backgroundColor: colors.primary,
-    color: '#FFFFFF',
-  },
-  secondaryBtn: {
-    backgroundColor: colors.secondary,
-    color: '#111827',
-  },
-  neutralBtn: {
-    backgroundColor: '#E5E7EB',
-    color: '#111827',
-  },
-  autoPlayBtn: {
-    backgroundColor: '#10B981',
-    color: '#FFFFFF',
-  },
-  autoPlayBtnActive: {
-    backgroundColor: '#EF4444',
-    color: '#FFFFFF',
-  },
-  indexText: {
-    margin: 0,
-    color: '#6B7280',
-    fontSize: '0.9rem',
-  },
+const severityColor = {
+  low: theme.muted,
+  medium: theme.accent2,
+  high: theme.danger,
 };
 
-const severityStyles = {
-  low: styles.severityLow,
-  medium: styles.severityMedium,
-  high: styles.severityHigh,
+const severityBg = {
+  low: 'rgba(168, 179, 198, 0.15)',
+  medium: 'rgba(245, 184, 81, 0.18)',
+  high: theme.dangerSoft,
 };
 
 function PhraseShowcase() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeCategory, setActiveCategory] = useState('全部');
   const [autoPlay, setAutoPlay] = useState(false);
+  const [fade, setFade] = useState(true);
   const intervalRef = useRef(null);
 
   const filteredPairs = useMemo(() => {
-    if (activeCategory === '全部') return phrasePairs;
-    return phrasePairs.filter((p) => p.category === activeCategory);
+    if (activeCategory === '全部') return curatedPhrases;
+    return curatedPhrases.filter((p) => p.category === activeCategory);
   }, [activeCategory]);
 
   const total = filteredPairs.length;
   const currentPair = filteredPairs[currentIndex % total];
 
+  const transition = useCallback((cb) => {
+    setFade(false);
+    setTimeout(() => {
+      cb();
+      setFade(true);
+    }, 180);
+  }, []);
+
   const prev = useCallback(() => {
-    setCurrentIndex((i) => (i - 1 + total) % total);
-  }, [total]);
+    transition(() => setCurrentIndex((i) => (i - 1 + total) % total));
+  }, [total, transition]);
 
   const next = useCallback(() => {
-    setCurrentIndex((i) => (i + 1) % total);
-  }, [total]);
+    transition(() => setCurrentIndex((i) => (i + 1) % total));
+  }, [total, transition]);
 
   const random = useCallback(() => {
-    setCurrentIndex((i) => {
-      let r;
-      do {
-        r = Math.floor(Math.random() * total);
-      } while (r === i && total > 1);
-      return r;
-    });
-  }, [total]);
+    transition(() =>
+      setCurrentIndex((i) => {
+        let r;
+        do {
+          r = Math.floor(Math.random() * total);
+        } while (r === i && total > 1);
+        return r;
+      }),
+    );
+  }, [total, transition]);
 
   const handleCategoryChange = (cat) => {
     setActiveCategory(cat);
     setCurrentIndex(0);
     setAutoPlay(false);
+    setFade(true);
   };
 
-  const toggleAutoPlay = () => {
-    setAutoPlay((v) => !v);
-  };
+  const toggleAutoPlay = () => setAutoPlay((v) => !v);
 
   useEffect(() => {
     if (autoPlay) {
       intervalRef.current = setInterval(() => {
-        setCurrentIndex((i) => (i + 1) % total);
-      }, 3000);
+        transition(() => setCurrentIndex((i) => (i + 1) % total));
+      }, 3500);
     }
     return () => {
       if (intervalRef.current) {
@@ -222,83 +89,297 @@ function PhraseShowcase() {
         intervalRef.current = null;
       }
     };
-  }, [autoPlay, total]);
+  }, [autoPlay, total, transition]);
 
   return (
-    <section style={styles.section}>
-      <div style={styles.container}>
-        <h2 style={styles.heading}>PUA 话术对照演示</h2>
-        <p style={styles.subheading}>
+    <section
+      style={{
+        background: `linear-gradient(180deg, ${theme.bg} 0%, ${theme.bgSoft} 100%)`,
+        padding: '84px 24px',
+        fontFamily: theme.font,
+      }}
+    >
+      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        {/* Header */}
+        <h2
+          style={{
+            margin: '0 0 8px',
+            fontSize: '2rem',
+            fontWeight: 800,
+            color: theme.text,
+            letterSpacing: '-0.02em',
+          }}
+        >
+          PUA 话术对照演示
+        </h2>
+        <p
+          style={{
+            margin: '0 0 28px',
+            color: theme.muted,
+            lineHeight: 1.65,
+            fontSize: '1.05rem',
+          }}
+        >
           左边是 LLM 常见偷懒回复，右边是系统自动生成的职场高压回复。
         </p>
 
-        <div style={styles.filterRow}>
-          {Object.entries(categoryLabels).map(([key, label]) => (
-            <button
-              key={key}
-              type="button"
-              style={{
-                ...styles.filterBtn,
-                ...(activeCategory === key ? styles.filterBtnActive : {}),
-              }}
-              onClick={() => handleCategoryChange(key)}
-            >
-              {label}
-            </button>
-          ))}
+        {/* Category filters */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '8px',
+            flexWrap: 'wrap',
+            marginBottom: '24px',
+          }}
+        >
+          {Object.entries(categoryLabels).map(([key, label]) => {
+            const isActive = activeCategory === key;
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => handleCategoryChange(key)}
+                style={{
+                  border: isActive ? `1px solid ${theme.accent}` : `1px solid ${theme.stroke}`,
+                  borderRadius: '20px',
+                  padding: '7px 16px',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  fontFamily: theme.font,
+                  cursor: 'pointer',
+                  backgroundColor: isActive ? theme.accentSoft : 'transparent',
+                  color: isActive ? theme.accent : theme.muted,
+                  transition: 'all 0.25s ease',
+                }}
+              >
+                {label}
+              </button>
+            );
+          })}
         </div>
 
-        <div style={styles.panel}>
-          <div style={{ ...styles.block, ...styles.llmBlock }}>
-            <h3 style={styles.label}>LLM 偷懒语句</h3>
-            <p style={styles.quote}>&ldquo;{currentPair.llm}&rdquo;</p>
-            <div style={styles.meta}>
-              <span style={{ ...styles.tag, ...styles.categoryTag }}>
+        {/* Cards panel */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '20px',
+            marginBottom: '24px',
+            opacity: fade ? 1 : 0,
+            transform: fade ? 'translateY(0)' : 'translateY(8px)',
+            transition: 'opacity 0.25s ease, transform 0.25s ease',
+          }}
+        >
+          {/* LLM card — robot feel */}
+          <div
+            style={{
+              borderRadius: theme.radiusMd,
+              padding: '26px',
+              minHeight: '190px',
+              backgroundColor: theme.cardStrong,
+              border: `1px solid ${theme.stroke}`,
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
+            {/* Subtle grid pattern overlay for "robot" feel */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.04,
+                backgroundImage:
+                  'repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(255,255,255,0.5) 19px, rgba(255,255,255,0.5) 20px), repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(255,255,255,0.5) 19px, rgba(255,255,255,0.5) 20px)',
+                pointerEvents: 'none',
+              }}
+            />
+            <h3
+              style={{
+                margin: '0 0 14px',
+                fontSize: '0.88rem',
+                fontWeight: 700,
+                color: theme.muted,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                fontFamily: "'Courier New', monospace",
+              }}
+            >
+              {'>'} LLM_OUTPUT
+            </h3>
+            <p
+              style={{
+                margin: 0,
+                fontSize: '1.08rem',
+                lineHeight: 1.75,
+                color: theme.text,
+                fontFamily: "'Courier New', monospace",
+                position: 'relative',
+              }}
+            >
+              &ldquo;{currentPair.llm}&rdquo;
+            </p>
+            <div style={{ display: 'flex', gap: '8px', marginTop: '16px', flexWrap: 'wrap' }}>
+              <span
+                style={{
+                  display: 'inline-block',
+                  padding: '3px 10px',
+                  borderRadius: '10px',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  backgroundColor: theme.accentSoft,
+                  color: theme.accent,
+                }}
+              >
                 {categoryLabels[currentPair.category] || currentPair.category}
               </span>
               <span
                 style={{
-                  ...styles.tag,
-                  ...(severityStyles[currentPair.severity] || styles.severityLow),
+                  display: 'inline-block',
+                  padding: '3px 10px',
+                  borderRadius: '10px',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  backgroundColor: severityBg[currentPair.severity] || severityBg.low,
+                  color: severityColor[currentPair.severity] || severityColor.low,
                 }}
               >
                 {currentPair.severity}
               </span>
             </div>
           </div>
-          <div style={{ ...styles.block, ...styles.puaBlock }}>
-            <h3 style={styles.label}>PUA 回复</h3>
-            <p style={styles.quote}>&ldquo;{currentPair.pua}&rdquo;</p>
+
+          {/* PUA card — oppressive red glow */}
+          <div
+            style={{
+              borderRadius: theme.radiusMd,
+              padding: '26px',
+              minHeight: '190px',
+              backgroundColor: theme.card,
+              border: `1px solid rgba(239, 68, 68, 0.25)`,
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: `inset 0 0 60px ${theme.dangerSoft}, 0 0 30px rgba(239, 68, 68, 0.08)`,
+            }}
+          >
+            {/* Red glow accent line */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '3px',
+                background: `linear-gradient(90deg, transparent 0%, ${theme.danger} 50%, transparent 100%)`,
+              }}
+            />
+            <h3
+              style={{
+                margin: '0 0 14px',
+                fontSize: '0.88rem',
+                fontWeight: 700,
+                color: theme.danger,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+              }}
+            >
+              PUA RESPONSE
+            </h3>
+            <p
+              style={{
+                margin: 0,
+                fontSize: '1.12rem',
+                lineHeight: 1.75,
+                color: theme.text,
+                fontWeight: 600,
+                position: 'relative',
+              }}
+            >
+              &ldquo;{currentPair.pua}&rdquo;
+            </p>
           </div>
         </div>
 
-        <div style={styles.controlRow}>
-          <button type="button" style={{ ...styles.button, ...styles.neutralBtn }} onClick={prev}>
+        {/* Controls */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '10px',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+          }}
+        >
+          <button
+            type="button"
+            onClick={prev}
+            style={{
+              border: `1px solid ${theme.stroke}`,
+              borderRadius: theme.radiusSm,
+              padding: '10px 18px',
+              fontSize: '0.92rem',
+              fontWeight: 700,
+              fontFamily: theme.font,
+              cursor: 'pointer',
+              backgroundColor: theme.card,
+              color: theme.text,
+              transition: 'all 0.2s ease',
+            }}
+          >
             上一条
           </button>
-          <button type="button" style={{ ...styles.button, ...styles.primaryBtn }} onClick={next}>
+          <button
+            type="button"
+            onClick={next}
+            style={{
+              border: 'none',
+              borderRadius: theme.radiusSm,
+              padding: '10px 18px',
+              fontSize: '0.92rem',
+              fontWeight: 700,
+              fontFamily: theme.font,
+              cursor: 'pointer',
+              backgroundColor: theme.accent,
+              color: theme.bg,
+              transition: 'all 0.2s ease',
+            }}
+          >
             下一条
           </button>
           <button
             type="button"
-            style={{ ...styles.button, ...styles.secondaryBtn }}
             onClick={random}
+            style={{
+              border: 'none',
+              borderRadius: theme.radiusSm,
+              padding: '10px 18px',
+              fontSize: '0.92rem',
+              fontWeight: 700,
+              fontFamily: theme.font,
+              cursor: 'pointer',
+              backgroundColor: theme.accent2,
+              color: theme.bg,
+              transition: 'all 0.2s ease',
+            }}
           >
             随机施压
           </button>
           <button
             type="button"
-            style={{
-              ...styles.button,
-              ...(autoPlay ? styles.autoPlayBtnActive : styles.autoPlayBtn),
-            }}
             onClick={toggleAutoPlay}
+            style={{
+              border: 'none',
+              borderRadius: theme.radiusSm,
+              padding: '10px 18px',
+              fontSize: '0.92rem',
+              fontWeight: 700,
+              fontFamily: theme.font,
+              cursor: 'pointer',
+              backgroundColor: autoPlay ? theme.danger : theme.accent,
+              color: autoPlay ? '#fff' : theme.bg,
+              transition: 'all 0.2s ease',
+            }}
           >
             {autoPlay ? '停止轮播' : '自动轮播'}
           </button>
-          <p style={styles.indexText}>
-            第 {(currentIndex % total) + 1} / {total} 条
-          </p>
         </div>
       </div>
     </section>

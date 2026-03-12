@@ -1,12 +1,5 @@
-import { useMemo, useState } from 'react';
-
-const colors = {
-  primary: '#DC2626',
-  secondary: '#F59E0B',
-  dark: '#1F2937',
-  light: '#F9FAFB',
-  detectorBg: '#F3F4F6',
-};
+import { useMemo, useState, useEffect } from 'react';
+import { theme } from '../theme';
 
 const quickSamples = [
   '// ... rest of code remains the same',
@@ -41,178 +34,37 @@ const puaReplies = [
   '少一点话术，多一点可运行代码。',
   '你不是来当评论员的，是来解决问题的。',
   '再给你一次机会：补全细节，马上提交。',
-  '别再“省略同上”，把关键步骤逐条写清楚。',
+  '别再"省略同上"，把关键步骤逐条写清楚。',
 ];
 
 const severityColorMap = {
-  高: '#DC2626',
-  中: '#F59E0B',
-  低: '#1F2937',
+  '高': theme.danger,
+  '中': theme.accent2,
+  '低': theme.accent,
 };
 
-const styles = {
-  section: {
-    backgroundColor: colors.detectorBg,
-    padding: '84px 24px',
-  },
-  container: {
-    maxWidth: '980px',
-    margin: '0 auto',
-  },
-  heading: {
-    margin: '0 0 12px',
-    fontSize: '2rem',
-    color: colors.dark,
-  },
-  subheading: {
-    margin: '0 0 24px',
-    color: '#4B5563',
-    lineHeight: 1.65,
-  },
-  card: {
-    borderRadius: '16px',
-    border: '1px solid #E5E7EB',
-    backgroundColor: '#FFFFFF',
-    padding: '20px',
-    boxShadow: '0 8px 24px rgba(31, 41, 55, 0.08)',
-  },
-  label: {
-    display: 'block',
-    margin: '0 0 8px',
-    fontWeight: 700,
-    color: '#374151',
-  },
-  textarea: {
-    width: '100%',
-    minHeight: '130px',
-    borderRadius: '12px',
-    border: '1px solid #D1D5DB',
-    padding: '12px',
-    resize: 'vertical',
-    fontFamily: 'inherit',
-    fontSize: '0.95rem',
-    lineHeight: 1.6,
-    color: '#111827',
-    backgroundColor: '#FFFFFF',
-    boxSizing: 'border-box',
-  },
-  sampleRow: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '8px',
-    marginTop: '12px',
-  },
-  sampleBtn: {
-    border: '1px solid #D1D5DB',
-    borderRadius: '999px',
-    backgroundColor: '#FFFFFF',
-    color: '#374151',
-    padding: '8px 12px',
-    fontSize: '0.84rem',
-    cursor: 'pointer',
-  },
-  detectRow: {
-    marginTop: '16px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-    flexWrap: 'wrap',
-  },
-  detectBtn: {
-    border: 'none',
-    borderRadius: '10px',
-    backgroundColor: colors.primary,
-    color: '#FFFFFF',
-    padding: '10px 14px',
-    fontSize: '0.92rem',
-    fontWeight: 700,
-    cursor: 'pointer',
-  },
-  summary: {
-    margin: 0,
-    color: '#4B5563',
-    fontSize: '0.9rem',
-  },
-  outputGrid: {
-    marginTop: '20px',
-    display: 'grid',
-    gridTemplateColumns: '1fr',
-    gap: '12px',
-  },
-  outputBox: {
-    border: '1px solid #E5E7EB',
-    borderRadius: '12px',
-    padding: '12px',
-    backgroundColor: colors.light,
-  },
-  outputTitle: {
-    margin: '0 0 8px',
-    fontWeight: 700,
-    color: colors.dark,
-  },
-  highlightedText: {
-    margin: 0,
-    whiteSpace: 'pre-wrap',
-    lineHeight: 1.65,
-    color: '#111827',
-    minHeight: '52px',
-  },
-  mark: {
-    backgroundColor: 'rgba(220, 38, 38, 0.08)',
-    color: colors.primary,
-    textDecoration: 'underline',
-    textDecorationColor: colors.primary,
-    textDecorationThickness: '2px',
-    textUnderlineOffset: '2px',
-    padding: '0 1px',
-  },
-  list: {
-    margin: 0,
-    padding: 0,
-    listStyle: 'none',
-    display: 'grid',
-    gap: '8px',
-  },
-  item: {
-    borderRadius: '10px',
-    backgroundColor: '#FFFFFF',
-    border: '1px solid #E5E7EB',
-    padding: '10px',
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '8px 12px',
-    alignItems: 'center',
-  },
-  token: {
-    padding: '3px 8px',
-    borderRadius: '999px',
-    fontSize: '0.78rem',
-    fontWeight: 700,
-  },
-  empty: {
-    margin: 0,
-    color: '#6B7280',
-    fontSize: '0.9rem',
-  },
-  pua: {
-    margin: 0,
-    color: '#7F1D1D',
-    backgroundColor: '#FEE2E2',
-    border: '1px solid #FCA5A5',
-    borderRadius: '10px',
-    padding: '10px 12px',
-    lineHeight: 1.6,
-    fontWeight: 600,
-  },
+const severityBgMap = {
+  '高': theme.dangerSoft,
+  '中': 'rgba(245, 184, 81, 0.15)',
+  '低': theme.accentSoft,
 };
 
-const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 function LazyDetector() {
   const [inputText, setInputText] = useState('');
   const [matches, setMatches] = useState([]);
   const [checked, setChecked] = useState(false);
   const [puaReply, setPuaReply] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
+  const [focusTextarea, setFocusTextarea] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const matchedKeywords = useMemo(() => {
     return matches.map((item) => item.phrase);
@@ -233,11 +85,11 @@ function LazyDetector() {
 
   const renderHighlightedText = () => {
     if (!inputText) {
-      return <span style={styles.empty}>请输入或粘贴 LLM 回复后再检测。</span>;
+      return <span style={{ color: theme.muted, fontSize: '0.9rem' }}>请输入或粘贴 LLM 回复后再检测。</span>;
     }
 
     if (!checked || !highlightRegex) {
-      return inputText;
+      return <span style={{ color: theme.text }}>{inputText}</span>;
     }
 
     const parts = inputText.split(highlightRegex);
@@ -247,13 +99,25 @@ function LazyDetector() {
 
       if (isHit) {
         return (
-          <span key={`${part}-${index}`} style={styles.mark}>
+          <span
+            key={`${part}-${index}`}
+            style={{
+              backgroundColor: theme.dangerSoft,
+              color: theme.danger,
+              textDecoration: 'underline',
+              textDecorationColor: theme.danger,
+              textDecorationThickness: '2px',
+              textUnderlineOffset: '2px',
+              padding: '0 2px',
+              borderRadius: '3px',
+            }}
+          >
             {part}
           </span>
         );
       }
 
-      return <span key={`${part}-${index}`}>{part}</span>;
+      return <span key={`${part}-${index}`} style={{ color: theme.text }}>{part}</span>;
     });
   };
 
@@ -294,82 +158,405 @@ function LazyDetector() {
   };
 
   return (
-    <section style={styles.section}>
-      <div style={styles.container}>
-        <h2 style={styles.heading}>偷懒检测演示器</h2>
-        <p style={styles.subheading}>输入回复后点击检测，系统会标记偷懒模式并给出风险信息。</p>
+    <section
+      style={{
+        background: `linear-gradient(170deg, ${theme.bg} 0%, ${theme.bgSoft} 50%, ${theme.bg} 100%)`,
+        padding: isMobile ? '64px 20px' : '84px 40px',
+        fontFamily: theme.font,
+      }}
+    >
+      <div style={{ maxWidth: '980px', margin: '0 auto' }}>
+        {/* Section header */}
+        <div style={{ marginBottom: '12px' }}>
+          <span
+            style={{
+              display: 'inline-block',
+              padding: '6px 16px',
+              borderRadius: '999px',
+              border: `1px solid ${theme.accent2}`,
+              color: theme.accent2,
+              fontSize: '12px',
+              fontWeight: 700,
+              letterSpacing: '0.1em',
+              backgroundColor: 'rgba(245, 184, 81, 0.08)',
+            }}
+          >
+            LAZY PATTERN SCANNER
+          </span>
+        </div>
+        <h2
+          style={{
+            margin: '0 0 8px',
+            fontSize: isMobile ? '1.6rem' : '2rem',
+            color: theme.text,
+            fontWeight: 700,
+            letterSpacing: '-0.01em',
+          }}
+        >
+          偷懒检测演示器
+        </h2>
+        <p
+          style={{
+            margin: '0 0 32px',
+            color: theme.muted,
+            lineHeight: 1.65,
+            fontSize: '0.95rem',
+            maxWidth: '600px',
+          }}
+        >
+          输入回复后点击检测，系统会标记偷懒模式并给出风险信息。
+        </p>
 
-        <div style={styles.card}>
-          <label style={styles.label} htmlFor="lazy-detector-input">
+        {/* Main card */}
+        <div
+          style={{
+            borderRadius: theme.radiusMd,
+            border: `1px solid ${theme.stroke}`,
+            backgroundColor: theme.card,
+            padding: isMobile ? '20px 16px' : '28px',
+            boxShadow: theme.shadow,
+          }}
+        >
+          <label
+            style={{
+              display: 'block',
+              margin: '0 0 8px',
+              fontWeight: 700,
+              color: theme.muted,
+              fontSize: '0.85rem',
+              letterSpacing: '0.04em',
+            }}
+            htmlFor="lazy-detector-input"
+          >
             LLM 回复文本
           </label>
           <textarea
             id="lazy-detector-input"
-            style={styles.textarea}
+            style={{
+              width: '100%',
+              minHeight: '130px',
+              borderRadius: theme.radiusSm,
+              border: `1.5px solid ${focusTextarea ? theme.accent : theme.stroke}`,
+              padding: '12px',
+              resize: 'vertical',
+              fontFamily: theme.font,
+              fontSize: '0.95rem',
+              lineHeight: 1.6,
+              color: theme.text,
+              backgroundColor: theme.bg,
+              boxSizing: 'border-box',
+              outline: 'none',
+              transition: 'border-color 0.25s ease',
+            }}
             value={inputText}
             onChange={(event) => setInputText(event.target.value)}
+            onFocus={() => setFocusTextarea(true)}
+            onBlur={() => setFocusTextarea(false)}
             placeholder="在此输入或粘贴回复内容..."
           />
 
-          <div style={styles.sampleRow}>
+          {/* Sample buttons */}
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '8px',
+              marginTop: '12px',
+            }}
+          >
             {quickSamples.map((sample) => (
-              <button type="button" key={sample} style={styles.sampleBtn} onClick={() => setSample(sample)}>
+              <button
+                type="button"
+                key={sample}
+                style={{
+                  border: `1px solid ${theme.stroke}`,
+                  borderRadius: '999px',
+                  backgroundColor: 'transparent',
+                  color: theme.muted,
+                  padding: '8px 14px',
+                  fontSize: '0.82rem',
+                  fontFamily: theme.font,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  maxWidth: '100%',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+                onClick={() => setSample(sample)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = theme.accent;
+                  e.currentTarget.style.color = theme.accent;
+                  e.currentTarget.style.backgroundColor = theme.accentSoft;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = theme.stroke;
+                  e.currentTarget.style.color = theme.muted;
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
+              >
                 {sample}
               </button>
             ))}
           </div>
 
-          <div style={styles.detectRow}>
-            <button type="button" style={styles.detectBtn} onClick={runDetection}>
+          {/* Detect button row */}
+          <div
+            style={{
+              marginTop: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              flexWrap: 'wrap',
+            }}
+          >
+            <button
+              type="button"
+              style={{
+                border: 'none',
+                borderRadius: theme.radiusSm,
+                backgroundColor: theme.accent2,
+                color: theme.bg,
+                padding: '10px 20px',
+                fontSize: '0.92rem',
+                fontWeight: 700,
+                fontFamily: theme.font,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+              }}
+              onClick={runDetection}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#e6a63d';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = theme.accent2;
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
               开始检测
             </button>
-            <p style={styles.summary}>
-              {checked ? `命中 ${matches.length} 个可疑模式` : '点击“开始检测”查看匹配结果'}
+            <p style={{ margin: 0, color: theme.muted, fontSize: '0.9rem' }}>
+              {checked ? `命中 ${matches.length} 个可疑模式` : '点击"开始检测"查看匹配结果'}
             </p>
           </div>
 
-          <div style={styles.outputGrid}>
-            <div style={styles.outputBox}>
-              <h3 style={styles.outputTitle}>高亮结果</h3>
-              <p style={styles.highlightedText}>{renderHighlightedText()}</p>
+          {/* Output grid */}
+          <div
+            style={{
+              marginTop: '20px',
+              display: 'grid',
+              gridTemplateColumns: '1fr',
+              gap: '12px',
+            }}
+          >
+            {/* Highlighted result */}
+            <div
+              style={{
+                border: `1px solid ${theme.stroke}`,
+                borderRadius: theme.radiusSm,
+                padding: '16px',
+                backgroundColor: theme.bg,
+              }}
+            >
+              <h3
+                style={{
+                  margin: '0 0 10px',
+                  fontWeight: 700,
+                  color: theme.text,
+                  fontSize: '0.9rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <span
+                  style={{
+                    width: '3px',
+                    height: '14px',
+                    backgroundColor: theme.accent,
+                    borderRadius: '2px',
+                    display: 'inline-block',
+                    flexShrink: 0,
+                  }}
+                />
+                高亮结果
+              </h3>
+              <p
+                style={{
+                  margin: 0,
+                  whiteSpace: 'pre-wrap',
+                  lineHeight: 1.65,
+                  minHeight: '52px',
+                  color: theme.text,
+                }}
+              >
+                {renderHighlightedText()}
+              </p>
             </div>
 
-            <div style={styles.outputBox}>
-              <h3 style={styles.outputTitle}>匹配详情（类别 + 严重程度）</h3>
+            {/* Match details */}
+            <div
+              style={{
+                border: `1px solid ${theme.stroke}`,
+                borderRadius: theme.radiusSm,
+                padding: '16px',
+                backgroundColor: theme.bg,
+              }}
+            >
+              <h3
+                style={{
+                  margin: '0 0 10px',
+                  fontWeight: 700,
+                  color: theme.text,
+                  fontSize: '0.9rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <span
+                  style={{
+                    width: '3px',
+                    height: '14px',
+                    backgroundColor: theme.accent2,
+                    borderRadius: '2px',
+                    display: 'inline-block',
+                    flexShrink: 0,
+                  }}
+                />
+                匹配详情（类别 + 严重程度）
+              </h3>
               {checked && matches.length > 0 ? (
-                <ul style={styles.list}>
+                <ul
+                  style={{
+                    margin: 0,
+                    padding: 0,
+                    listStyle: 'none',
+                    display: 'grid',
+                    gap: '8px',
+                  }}
+                >
                   {matches.map((item) => (
-                    <li key={item.phrase} style={styles.item}>
-                      <span style={{ ...styles.token, backgroundColor: '#FEE2E2', color: colors.primary }}>
+                    <li
+                      key={item.phrase}
+                      style={{
+                        borderRadius: theme.radiusSm,
+                        backgroundColor: theme.cardStrong,
+                        border: `1px solid ${theme.stroke}`,
+                        padding: '10px 12px',
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: '8px 10px',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <span
+                        style={{
+                          padding: '3px 10px',
+                          borderRadius: '999px',
+                          fontSize: '0.78rem',
+                          fontWeight: 700,
+                          backgroundColor: theme.dangerSoft,
+                          color: theme.danger,
+                        }}
+                      >
                         {item.phrase}
                       </span>
-                      <span style={{ ...styles.token, backgroundColor: '#FEF3C7', color: '#92400E' }}>
+                      <span
+                        style={{
+                          padding: '3px 10px',
+                          borderRadius: '999px',
+                          fontSize: '0.78rem',
+                          fontWeight: 700,
+                          backgroundColor: 'rgba(245, 184, 81, 0.12)',
+                          color: theme.accent2,
+                        }}
+                      >
                         类别: {item.category}
                       </span>
                       <span
                         style={{
-                          ...styles.token,
-                          backgroundColor: 'rgba(229, 231, 235, 0.9)',
+                          padding: '3px 10px',
+                          borderRadius: '999px',
+                          fontSize: '0.78rem',
+                          fontWeight: 700,
+                          backgroundColor: severityBgMap[item.severity],
                           color: severityColorMap[item.severity],
                         }}
                       >
                         严重程度: {item.severity}
                       </span>
-                      <span style={{ ...styles.token, backgroundColor: '#ECFDF5', color: '#047857' }}>
+                      <span
+                        style={{
+                          padding: '3px 10px',
+                          borderRadius: '999px',
+                          fontSize: '0.78rem',
+                          fontWeight: 700,
+                          backgroundColor: theme.accentSoft,
+                          color: theme.accent,
+                        }}
+                      >
                         命中次数: {item.count}
                       </span>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p style={styles.empty}>{checked ? '未命中关键词。' : '检测后显示详情。'}</p>
+                <p style={{ margin: 0, color: theme.muted, fontSize: '0.9rem' }}>
+                  {checked ? '未命中关键词。' : '检测后显示详情。'}
+                </p>
               )}
             </div>
 
+            {/* PUA reply */}
             {checked ? (
-              <div style={styles.outputBox}>
-                <h3 style={styles.outputTitle}>随机 PUA 回复</h3>
-                <p style={styles.pua}>{puaReply}</p>
+              <div
+                style={{
+                  border: `1px solid ${theme.stroke}`,
+                  borderRadius: theme.radiusSm,
+                  padding: '16px',
+                  backgroundColor: theme.bg,
+                }}
+              >
+                <h3
+                  style={{
+                    margin: '0 0 10px',
+                    fontWeight: 700,
+                    color: theme.text,
+                    fontSize: '0.9rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  <span
+                    style={{
+                      width: '3px',
+                      height: '14px',
+                      backgroundColor: theme.danger,
+                      borderRadius: '2px',
+                      display: 'inline-block',
+                      flexShrink: 0,
+                    }}
+                  />
+                  随机 PUA 回复
+                </h3>
+                <p
+                  style={{
+                    margin: 0,
+                    color: theme.danger,
+                    backgroundColor: theme.dangerSoft,
+                    border: `1px solid rgba(239, 68, 68, 0.3)`,
+                    borderRadius: theme.radiusSm,
+                    padding: '12px 14px',
+                    lineHeight: 1.6,
+                    fontWeight: 600,
+                    fontSize: '0.92rem',
+                  }}
+                >
+                  {puaReply}
+                </p>
               </div>
             ) : null}
           </div>
