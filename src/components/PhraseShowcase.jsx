@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import curatedPhrases from '../data/curatedPhrases';
+import modelSpecificPhrases from '../data/modelSpecificPhrases';
 import { modelRoasts, ruralPhrases, quickModels } from '../data/modelRoasts';
 import theme from '../theme';
 import puaMeme1 from '../assets/pua-meme-1.png';
@@ -62,10 +63,12 @@ function PhraseShowcase() {
     return { key: q, isKnown: false };
   }, [modelInput]);
 
+  const allPhrases = useMemo(() => [...curatedPhrases, ...modelSpecificPhrases], []);
+
   const filteredPairs = useMemo(() => {
-    if (activeCategory === '全部') return curatedPhrases;
-    return curatedPhrases.filter((p) => p.category === activeCategory);
-  }, [activeCategory]);
+    if (activeCategory === '全部') return allPhrases;
+    return allPhrases.filter((p) => p.category === activeCategory);
+  }, [activeCategory, allPhrases]);
 
   const total = filteredPairs.length;
   const currentPair = filteredPairs[currentIndex % total];

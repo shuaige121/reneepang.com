@@ -217,6 +217,8 @@ const quickModels = [
   { label: 'Llama', value: 'llama' },
   { label: 'Mistral', value: 'mistral' },
   { label: 'Kimi', value: 'kimi' },
+  { label: 'Perplexity', value: 'perplexity' },
+  { label: 'Ernie', value: 'ernie' },
 ];
 
 export { modelRoasts, ruralPhrases, quickModels };
