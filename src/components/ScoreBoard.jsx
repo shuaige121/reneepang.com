@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import theme from '../theme';
+import reneeStickerGrading from '../assets/renee-sticker-grading.png';
 
 const scoreDimensions = [
   { key: 'completeness', label: '完整性 (Completeness)', max: 30 },
@@ -78,6 +79,14 @@ function ScoreBoard() {
   const [comment, setComment] = useState('');
   const [pie, setPie] = useState('');
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const totalScore = useMemo(
     () => scoreDimensions.reduce((sum, d) => sum + scores[d.key], 0),
@@ -153,8 +162,29 @@ function ScoreBoard() {
             opacity: isAnimating ? 0.4 : 1,
             transform: isAnimating ? 'scale(0.98)' : 'scale(1)',
             transition: 'all 0.3s ease',
+            position: 'relative',
+            overflow: 'visible',
           }}
         >
+          {/* Renee sticker - grading */}
+          {!isMobile && (
+            <img
+              src={reneeStickerGrading}
+              alt=""
+              className="renee-sticker-scoreboard"
+              style={{
+                position: 'absolute',
+                top: '-30px',
+                right: '-80px',
+                height: '220px',
+                width: 'auto',
+                pointerEvents: 'none',
+                filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.4))',
+                zIndex: 3,
+                opacity: 0.92,
+              }}
+            />
+          )}
           {/* Dimension bars */}
           {scoreDimensions.map((dim) => {
             const value = scores[dim.key];

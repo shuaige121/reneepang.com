@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from 'react';
 import { theme } from '../theme';
+import reneeStickerMegaphone from '../assets/renee-sticker-megaphone.png';
 
 const quickSamples = [
   '// ... rest of code remains the same',
@@ -163,9 +164,31 @@ function LazyDetector() {
         background: `linear-gradient(170deg, ${theme.bg} 0%, ${theme.bgSoft} 50%, ${theme.bg} 100%)`,
         padding: isMobile ? '64px 20px' : '84px 40px',
         fontFamily: theme.font,
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <div style={{ maxWidth: '980px', margin: '0 auto' }}>
+      {/* Renee sticker - megaphone */}
+      {!isMobile && (
+        <img
+          src={reneeStickerMegaphone}
+          alt=""
+          className="renee-sticker-lazy"
+          style={{
+            position: 'absolute',
+            top: '40px',
+            right: '20px',
+            height: '200px',
+            width: 'auto',
+            pointerEvents: 'none',
+            filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.4))',
+            zIndex: 2,
+            opacity: 0.88,
+            transform: 'rotate(3deg)',
+          }}
+        />
+      )}
+      <div style={{ maxWidth: '980px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         {/* Section header */}
         <div style={{ marginBottom: '12px' }}>
           <span

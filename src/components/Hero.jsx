@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { theme } from '../theme';
+import reneeStickerPointing from '../assets/renee-sticker-pointing.png';
 
 const commands = [
   {
@@ -135,6 +136,30 @@ function Hero() {
           filter: 'blur(50px)',
         }}
       />
+
+      {/* Renee sticker - pointing */}
+      <img
+        src={reneeStickerPointing}
+        alt=""
+        className="renee-sticker"
+        style={{
+          position: 'absolute',
+          bottom: isMobile ? '20px' : '40px',
+          right: isMobile ? '-10px' : '40px',
+          height: isMobile ? '160px' : '280px',
+          width: 'auto',
+          transform: 'rotate(-5deg)',
+          pointerEvents: 'none',
+          filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.4))',
+          zIndex: 2,
+          opacity: 0.9,
+        }}
+      />
+      <style>{`
+        @media (max-width: 768px) {
+          .renee-sticker { display: none !important; }
+        }
+      `}</style>
 
       <div
         style={{

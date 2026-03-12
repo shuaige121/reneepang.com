@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { theme } from '../theme';
+import reneeStickerDisappointed from '../assets/renee-sticker-disappointed.png';
 
 const flowSteps = [
   {
@@ -125,6 +126,26 @@ function ContractDemo() {
             padding: '8px 0',
           }}
         >
+          {/* Renee sticker - disappointed */}
+          {!isMobile && (
+            <img
+              src={reneeStickerDisappointed}
+              alt=""
+              className="renee-sticker-contract"
+              style={{
+                position: 'absolute',
+                bottom: '30px',
+                right: '-60px',
+                height: '180px',
+                width: 'auto',
+                pointerEvents: 'none',
+                filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.4))',
+                zIndex: 3,
+                opacity: 0.9,
+                transform: 'rotate(2deg)',
+              }}
+            />
+          )}
           {/* Timeline line */}
           {!isMobile && (
             <div
