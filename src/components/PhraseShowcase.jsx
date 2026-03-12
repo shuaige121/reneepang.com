@@ -18,14 +18,14 @@ const memeImages = [
 ];
 
 const categoryLabels = {
-  '\u5168\u90e8': '\u5168\u90e8',
-  code_truncation: '\u4ee3\u7801\u622a\u65ad',
-  task_abandonment: '\u4efb\u52a1\u653e\u5f03',
-  deflection: '\u63a8\u8131\u7529\u9505',
-  capability_denial: '\u80fd\u529b\u5426\u8ba4',
-  vague_deferral: '\u6a21\u7cca\u63a8\u8131',
-  sycophantic_filler: '\u62cd\u9a6c\u5c41\u586b\u5145',
-  slop_padding: 'AI\u5e9f\u8bdd',
+  '全部': '全部',
+  code_truncation: '代码截断',
+  task_abandonment: '任务放弃',
+  deflection: '推脱甩锅',
+  capability_denial: '能力否认',
+  vague_deferral: '模糊推脱',
+  sycophantic_filler: '拍马屁填充',
+  slop_padding: 'AI废话',
 };
 
 const severityColor = {
@@ -42,14 +42,14 @@ const severityBg = {
 
 function PhraseShowcase() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [activeCategory, setActiveCategory] = useState('\u5168\u90e8');
+  const [activeCategory, setActiveCategory] = useState('全部');
   const [autoPlay, setAutoPlay] = useState(false);
   const [fade, setFade] = useState(true);
   const [lightboxIdx, setLightboxIdx] = useState(-1);
   const intervalRef = useRef(null);
 
   const filteredPairs = useMemo(() => {
-    if (activeCategory === '\u5168\u90e8') return curatedPhrases;
+    if (activeCategory === '全部') return curatedPhrases;
     return curatedPhrases.filter((p) => p.category === activeCategory);
   }, [activeCategory]);
 
@@ -136,7 +136,7 @@ function PhraseShowcase() {
             letterSpacing: '-0.02em',
           }}
         >
-          AI\u5077\u61d2\u8bed\u5f55 vs \u804c\u573aPUA\u56de\u51fb
+          AI偷懒语录 vs 职场PUA回击
         </h2>
         <p
           style={{
@@ -146,7 +146,7 @@ function PhraseShowcase() {
             fontSize: '1.05rem',
           }}
         >
-          \u5de6\u8fb9\u662f\u4f60\u7684AI\u8bf4\u7684\u5e9f\u8bdd\uff0c\u53f3\u8fb9\u662fRenee\u7684\u56de\u590d\u3002\u6ed1\u7a3d\u4e2d\u5e26\u7740\u7a92\u606f\u611f\u3002
+          左边是你的AI说的废话，右边是Renee的回复。滑稽中带着窒息感。
         </p>
 
         {/* Category filters */}
@@ -420,7 +420,7 @@ function PhraseShowcase() {
               transition: 'all 0.2s ease',
             }}
           >
-            \u4e0a\u4e00\u6761
+            上一条
           </button>
           <button
             type="button"
@@ -438,7 +438,7 @@ function PhraseShowcase() {
               transition: 'all 0.2s ease',
             }}
           >
-            \u4e0b\u4e00\u6761
+            下一条
           </button>
           <button
             type="button"
@@ -456,7 +456,7 @@ function PhraseShowcase() {
               transition: 'all 0.2s ease',
             }}
           >
-            \u968f\u673a\u65bd\u538b
+            随机施压
           </button>
           <button
             type="button"
@@ -474,7 +474,7 @@ function PhraseShowcase() {
               transition: 'all 0.2s ease',
             }}
           >
-            {autoPlay ? '\u505c\u6b62\u8f6e\u64ad' : '\u81ea\u52a8\u8f6e\u64ad'}
+            {autoPlay ? '停止轮播' : '自动轮播'}
           </button>
         </div>
       </div>

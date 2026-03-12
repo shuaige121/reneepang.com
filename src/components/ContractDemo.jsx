@@ -11,8 +11,8 @@ const flowSteps = [
         <line x1="16" y1="17" x2="8" y2="17" />
       </svg>
     ),
-    title: '\u7b7e\u7ea6',
-    desc: '\u660e\u786e\u4ea4\u4ed8\u7269\u3001\u9a8c\u6536\u6807\u51c6\u3001\u5931\u8d25\u60e9\u7f5a',
+    title: '签约',
+    desc: '明确交付物、验收标准、失败惩罚',
   },
   {
     icon: (
@@ -25,8 +25,8 @@ const flowSteps = [
         <line x1="3" y1="18" x2="3.01" y2="18" />
       </svg>
     ),
-    title: '\u62c6\u5206',
-    desc: '\u6309\u6a21\u5757\u62c6\u62102-5\u4e2a\u5b50\u5408\u540c',
+    title: '拆分',
+    desc: '按模块拆成2-5个子合同',
   },
   {
     icon: (
@@ -35,8 +35,8 @@ const flowSteps = [
         <circle cx="12" cy="12" r="3" />
       </svg>
     ),
-    title: '\u5de1\u67e5',
-    desc: '\u591a\u4e2aAgent\u4ea4\u53c9\u5ba1\u8ba1\u3001\u72ec\u7acb\u63d0\u4ea4',
+    title: '巡查',
+    desc: '多个Agent交叉审计、独立提交',
   },
   {
     icon: (
@@ -46,8 +46,8 @@ const flowSteps = [
         <line x1="6" y1="20" x2="6" y2="14" />
       </svg>
     ),
-    title: '\u8bc4\u5206',
-    desc: '\u56db\u7ef4\u5ea6\u6253\u5206\uff0c\u6ee1\u5206100',
+    title: '评分',
+    desc: '四维度打分，满分100',
   },
   {
     icon: (
@@ -58,7 +58,7 @@ const flowSteps = [
       </svg>
     ),
     title: 'PUA!',
-    desc: '\u8bdd\u672f\u653b\u51fb+\u5f3a\u5236\u8fd4\u5de5',
+    desc: '话术攻击+强制返工',
     isDanger: true,
   },
   {
@@ -67,8 +67,8 @@ const flowSteps = [
         <polyline points="20 6 9 17 4 12" />
       </svg>
     ),
-    title: '\u901a\u8fc7',
-    desc: '"\u8fd9\u6b21\u8fd8\u884c\uff0c\u4e0b\u6b21\u6ce8\u610f"',
+    title: '通过',
+    desc: '"这次还行，下次注意"',
     isSuccess: true,
   },
 ];
@@ -103,7 +103,7 @@ function ContractDemo() {
             letterSpacing: '-0.02em',
           }}
         >
-          {'\u4ece\u7b7e\u7ea6\u5230PUA\uff1a6\u6b65\u95ed\u73af'}
+          {'从签约到PUA：6步闭环'}
         </h2>
         <p
           style={{
@@ -114,7 +114,7 @@ function ContractDemo() {
             maxWidth: '520px',
           }}
         >
-          {'\u4e0d\u662f\u4f60\u4e0d\u52aa\u529b\uff0c\u662f\u4f60\u4e0d\u77e5\u9053\u5408\u540c\u5df2\u7ecf\u7b7e\u4e86\u3002'}
+          {'不是你不努力，是你不知道合同已经签了。'}
         </p>
 
         {/* Grid layout: 3 columns desktop, 2 columns tablet, 1 column mobile */}
