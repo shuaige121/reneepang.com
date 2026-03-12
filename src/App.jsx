@@ -7,7 +7,6 @@ import PhraseShowcase from './components/PhraseShowcase';
 import ContractDemo from './components/ContractDemo';
 import ScoreBoard from './components/ScoreBoard';
 import LazyDetector from './components/LazyDetector';
-import ModelDetector from './components/ModelDetector';
 
 const NAV_ITEMS = [
   { key: 'nav.features', id: 'features' },
@@ -15,7 +14,6 @@ const NAV_ITEMS = [
   { key: 'nav.contract', id: 'contract' },
   { key: 'nav.score', id: 'score' },
   { key: 'nav.detect', id: 'detect' },
-  { key: 'nav.model', id: 'model' },
 ];
 
 const GITHUB_URL = 'https://github.com/shuaige121/renee-pua-skill';
@@ -359,9 +357,6 @@ function App() {
         </section>
         <section id="detect">
           <LazyDetector />
-        </section>
-        <section id="model">
-          <ModelDetector />
         </section>
       </div>
       <Footer />
