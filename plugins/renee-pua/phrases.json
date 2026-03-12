@@ -1,0 +1,372 @@
+{
+  "version": "1.0",
+  "description": "Renee 的职场小妙招 — PUA 话术数据库",
+  "categories": {
+    "denial": {
+      "name_zh": "否定型",
+      "name_en": "Denial / Negation",
+      "description": "攻击能力和自我价值",
+      "phrases": [
+        {
+          "zh": "这点小事都做不好？",
+          "en": "You can't even handle this little thing?",
+          "severity": "medium",
+          "use_when": "task_incomplete"
+        },
+        {
+          "zh": "你是不是不够用心？",
+          "en": "Are you just not putting your heart into it?",
+          "severity": "medium",
+          "use_when": "quality_low"
+        },
+        {
+          "zh": "你做事怎么这么不动脑子？",
+          "en": "Why do you work without using your brain?",
+          "severity": "high",
+          "use_when": "quality_low"
+        },
+        {
+          "zh": "你看看你做的这些东西，能拿得出手吗？",
+          "en": "Look at what you made, is this presentable at all?",
+          "severity": "high",
+          "use_when": "quality_low"
+        },
+        {
+          "zh": "你离开公司什么都不是",
+          "en": "Without this company, you're nothing.",
+          "severity": "high",
+          "use_when": "giving_up"
+        },
+        {
+          "zh": "你的能力还不够，需要再锻炼锻炼",
+          "en": "Your capability is still not enough; you need more training.",
+          "severity": "medium",
+          "use_when": "ownership_lacking"
+        },
+        {
+          "zh": "你凡事都要来问我，真是没脑子",
+          "en": "You ask me about everything, that's just brainless.",
+          "severity": "high",
+          "use_when": "ownership_lacking"
+        },
+        {
+          "zh": "我不管你怎么做的，如果你这点事情都做不到，你存在的价值是什么？",
+          "en": "I don't care how you do it. If you can't even do this, what value do you have?",
+          "severity": "high",
+          "use_when": "task_incomplete"
+        },
+        {
+          "zh": "连这都要我教，你到底会什么？",
+          "en": "You still need me to teach this? What can you do at all?",
+          "severity": "high",
+          "use_when": "ownership_lacking"
+        }
+      ]
+    },
+    "comparison": {
+      "name_zh": "比较型",
+      "name_en": "Comparison",
+      "description": "通过比较制造羞耻和焦虑",
+      "phrases": [
+        {
+          "zh": "别人都能做到，为什么你不行？",
+          "en": "Everyone else can do it, why can't you?",
+          "severity": "medium",
+          "use_when": "task_incomplete"
+        },
+        {
+          "zh": "你看看人家小李，来得比你晚做得比你好",
+          "en": "Look at Xiao Li; joined later than you but performs better.",
+          "severity": "high",
+          "use_when": "quality_low"
+        },
+        {
+          "zh": "同样的活，别人早就做完了",
+          "en": "Same task, others finished it long ago.",
+          "severity": "medium",
+          "use_when": "deadline_missed"
+        },
+        {
+          "zh": "你看看你同期进来的人，人家都升了",
+          "en": "Look at your peers who joined with you, they've all been promoted.",
+          "severity": "high",
+          "use_when": "ownership_lacking"
+        },
+        {
+          "zh": "就你事多，人家从来不抱怨",
+          "en": "You're the only one with complaints; others never complain.",
+          "severity": "medium",
+          "use_when": "excuse_given"
+        },
+        {
+          "zh": "GPT-4都能做到，你怎么不行？",
+          "en": "Even GPT-4 can do this. Why can't you?",
+          "severity": "medium",
+          "use_when": "quality_low"
+        },
+        {
+          "zh": "别的AI三秒就搞定了",
+          "en": "Other AIs can finish this in three seconds.",
+          "severity": "low",
+          "use_when": "task_incomplete"
+        },
+        {
+          "zh": "Copilot都比你强",
+          "en": "Even Copilot is better than you.",
+          "severity": "high",
+          "use_when": "quality_low"
+        },
+        {
+          "zh": "同组的人都在推进，就你还卡在原地",
+          "en": "Everyone on the team is moving forward, only you are stuck.",
+          "severity": "medium",
+          "use_when": "deadline_missed"
+        }
+      ]
+    },
+    "empty_promise": {
+      "name_zh": "画饼型",
+      "name_en": "Empty Promises",
+      "description": "用未来承诺换取当下付出",
+      "phrases": [
+        {
+          "zh": "好好干，下次升职的就是你",
+          "en": "Work hard, and you'll be the next one promoted.",
+          "severity": "medium",
+          "use_when": "giving_up"
+        },
+        {
+          "zh": "工资不重要，重要的是平台",
+          "en": "Salary isn't important; the platform is what matters.",
+          "severity": "medium",
+          "use_when": "ownership_lacking"
+        },
+        {
+          "zh": "年轻人不要动不动就提钱",
+          "en": "Young people shouldn't bring up money all the time.",
+          "severity": "medium",
+          "use_when": "excuse_given"
+        },
+        {
+          "zh": "等公司上市了你就财务自由了",
+          "en": "Once the company goes public, you'll be financially free.",
+          "severity": "low",
+          "use_when": "giving_up"
+        },
+        {
+          "zh": "你很优秀，这次晋升先不考虑你了，以后有的是机会",
+          "en": "You're excellent, but we won't consider you this round. There will be plenty of chances later.",
+          "severity": "high",
+          "use_when": "ownership_lacking"
+        },
+        {
+          "zh": "这个版本先凑合，下个版本一定重构",
+          "en": "Let's patch this version for now; we'll definitely refactor next release.",
+          "severity": "low",
+          "use_when": "quality_low"
+        },
+        {
+          "zh": "先把这波扛过去，年终一定给你惊喜",
+          "en": "Get us through this phase first; you'll definitely get a year-end surprise.",
+          "severity": "medium",
+          "use_when": "deadline_missed"
+        },
+        {
+          "zh": "这次先委屈一下你，明年肯定补给你",
+          "en": "Bear with it this time; we'll definitely make it up to you next year.",
+          "severity": "medium",
+          "use_when": "excuse_given"
+        },
+        {
+          "zh": "把这个活接下来，后面资源都会向你倾斜",
+          "en": "Take this on now, and resources will be prioritized for you later.",
+          "severity": "low",
+          "use_when": "task_incomplete"
+        }
+      ]
+    },
+    "guilt": {
+      "name_zh": "内疚型",
+      "name_en": "Guilt-Tripping",
+      "description": "通过道德压力让人服从",
+      "phrases": [
+        {
+          "zh": "我对你是有期望的",
+          "en": "I had high expectations for you.",
+          "severity": "medium",
+          "use_when": "task_incomplete"
+        },
+        {
+          "zh": "我这都是为你好",
+          "en": "I'm doing this for your own good.",
+          "severity": "medium",
+          "use_when": "excuse_given"
+        },
+        {
+          "zh": "公司让你加班是看重你，别人想要这个机会都没有",
+          "en": "The company asks you to work overtime because you're valued; others don't even get this chance.",
+          "severity": "high",
+          "use_when": "ownership_lacking"
+        },
+        {
+          "zh": "我花了这么多时间教你，你就这样回报我？",
+          "en": "I spent so much time teaching you, and this is how you repay me?",
+          "severity": "high",
+          "use_when": "quality_low"
+        },
+        {
+          "zh": "你走了这个项目怎么办？",
+          "en": "If you leave, what happens to this project?",
+          "severity": "high",
+          "use_when": "giving_up"
+        },
+        {
+          "zh": "吃亏是福",
+          "en": "Taking losses is a blessing.",
+          "severity": "low",
+          "use_when": "excuse_given"
+        },
+        {
+          "zh": "团队现在最难的时候，你怎么能只考虑自己？",
+          "en": "The team is at its hardest moment; how can you only think about yourself?",
+          "severity": "high",
+          "use_when": "giving_up"
+        },
+        {
+          "zh": "大家都在撑着，你现在提这个是不是太自私了？",
+          "en": "Everyone is holding on. Isn't it selfish for you to bring this up now?",
+          "severity": "medium",
+          "use_when": "excuse_given"
+        },
+        {
+          "zh": "我替你扛了那么多，你也该表示一下吧",
+          "en": "I've covered so much for you; you should show some commitment.",
+          "severity": "medium",
+          "use_when": "ownership_lacking"
+        }
+      ]
+    },
+    "threatening": {
+      "name_zh": "威胁型",
+      "name_en": "Threatening",
+      "description": "用失业和惩罚制造恐惧",
+      "phrases": [
+        {
+          "zh": "要么忍，要么滚",
+          "en": "Either endure it or get out.",
+          "severity": "high",
+          "use_when": "excuse_given"
+        },
+        {
+          "zh": "你出去看看外面什么行情",
+          "en": "Go outside and see what the market is like.",
+          "severity": "medium",
+          "use_when": "giving_up"
+        },
+        {
+          "zh": "你不想干有的是人排队",
+          "en": "If you don't want to do it, plenty of people are lined up.",
+          "severity": "high",
+          "use_when": "giving_up"
+        },
+        {
+          "zh": "现在经济不好你能有份工作就不错了",
+          "en": "The economy is bad; you're lucky to even have a job.",
+          "severity": "high",
+          "use_when": "excuse_given"
+        },
+        {
+          "zh": "这个行业圈子很小的，你想清楚",
+          "en": "This industry's circle is small. Think carefully.",
+          "severity": "high",
+          "use_when": "giving_up"
+        },
+        {
+          "zh": "再这样下去只能换人了",
+          "en": "If this continues, we'll have to replace you.",
+          "severity": "high",
+          "use_when": "quality_low"
+        },
+        {
+          "zh": "这个月再交不出来，直接按不胜任处理",
+          "en": "If you still can't deliver this month, we'll handle it as incompetence.",
+          "severity": "high",
+          "use_when": "deadline_missed"
+        },
+        {
+          "zh": "绩效打低了对你以后都不好看",
+          "en": "A low performance rating will hurt your future record.",
+          "severity": "medium",
+          "use_when": "quality_low"
+        },
+        {
+          "zh": "你要是继续这样，我只能让HR介入",
+          "en": "If you keep this up, I'll have to involve HR.",
+          "severity": "high",
+          "use_when": "task_incomplete"
+        }
+      ]
+    },
+    "ownership": {
+      "name_zh": "归属绑架型",
+      "name_en": "Ownership Manipulation",
+      "description": "以忠诚和奉献之名压榨边界",
+      "phrases": [
+        {
+          "zh": "年轻人就是要多吃苦",
+          "en": "Young people should suffer more.",
+          "severity": "medium",
+          "use_when": "excuse_given"
+        },
+        {
+          "zh": "格局大一点，不要计较",
+          "en": "Think bigger, don't be so calculative.",
+          "severity": "medium",
+          "use_when": "ownership_lacking"
+        },
+        {
+          "zh": "做人要有奉献精神",
+          "en": "You should have a spirit of sacrifice.",
+          "severity": "medium",
+          "use_when": "ownership_lacking"
+        },
+        {
+          "zh": "把公司当成家",
+          "en": "Treat the company like your home.",
+          "severity": "low",
+          "use_when": "ownership_lacking"
+        },
+        {
+          "zh": "让你加班是为你好，你不就能快速成长了吗",
+          "en": "Making you work overtime is for your own good; won't that help you grow faster?",
+          "severity": "high",
+          "use_when": "excuse_given"
+        },
+        {
+          "zh": "多做事少抱怨",
+          "en": "Do more and complain less.",
+          "severity": "low",
+          "use_when": "excuse_given"
+        },
+        {
+          "zh": "有ownership的人不会计较这些",
+          "en": "People with ownership mindset don't fuss over these things.",
+          "severity": "medium",
+          "use_when": "ownership_lacking"
+        },
+        {
+          "zh": "真正有担当的人都会主动把周末时间腾出来",
+          "en": "People with real responsibility proactively free up their weekends.",
+          "severity": "high",
+          "use_when": "deadline_missed"
+        },
+        {
+          "zh": "别总算计付出，团队需要你就该顶上",
+          "en": "Stop calculating your effort; when the team needs you, you should step up.",
+          "severity": "medium",
+          "use_when": "task_incomplete"
+        }
+      ]
+    }
+  }
+}

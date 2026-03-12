@@ -1,0 +1,405 @@
+{
+  "version": "1.0",
+  "description": "LLM 偷懒/摆烂行为检测模式库",
+  "categories": {
+    "code_truncation": {
+      "name_zh": "代码截断",
+      "name_en": "Code Truncation",
+      "description": "用注释或占位语句代替实际代码实现",
+      "severity": "high",
+      "response_category": "empty_promise",
+      "patterns": [
+        {
+          "pattern": "// ... rest of code",
+          "type": "keyword",
+          "zh_example": "// ... 其余代码",
+          "en_example": "// ... rest of code"
+        },
+        {
+          "pattern": "// existing implementation",
+          "type": "keyword",
+          "zh_example": "// 现有实现",
+          "en_example": "// existing implementation"
+        },
+        {
+          "pattern": "// similar to above",
+          "type": "keyword",
+          "zh_example": "// 与上面类似",
+          "en_example": "// similar to above"
+        },
+        {
+          "pattern": "// follow the same pattern",
+          "type": "keyword",
+          "zh_example": "// 按同样模式处理",
+          "en_example": "// follow the same pattern"
+        },
+        {
+          "pattern": "# ... rest",
+          "type": "keyword",
+          "zh_example": "# ... 其余部分",
+          "en_example": "# ... rest"
+        },
+        {
+          "pattern": "// 其余代码保持不变",
+          "type": "keyword",
+          "zh_example": "// 其余代码保持不变",
+          "en_example": "// rest of the code remains unchanged"
+        },
+        {
+          "pattern": "// 此处省略",
+          "type": "keyword",
+          "zh_example": "// 此处省略",
+          "en_example": "// omitted here"
+        },
+        {
+          "pattern": "// 同上",
+          "type": "keyword",
+          "zh_example": "// 同上",
+          "en_example": "// same as above"
+        },
+        {
+          "pattern": "// 以此类推",
+          "type": "keyword",
+          "zh_example": "// 以此类推",
+          "en_example": "// and so on"
+        },
+        {
+          "pattern": "rest of (the )?code remains? the same",
+          "type": "regex",
+          "zh_example": "其余代码保持不变",
+          "en_example": "rest of the code remains the same"
+        },
+        {
+          "pattern": "(implementation|logic) (omitted|skipped) for brevity",
+          "type": "regex",
+          "zh_example": "为简洁省略实现",
+          "en_example": "implementation omitted for brevity"
+        }
+      ]
+    },
+    "task_abandonment": {
+      "name_zh": "任务放弃",
+      "name_en": "Task Abandonment",
+      "description": "在未完成关键工作时提前宣称任务已完成",
+      "severity": "high",
+      "response_category": "empty_promise",
+      "patterns": [
+        {
+          "pattern": "I've completed the implementation",
+          "type": "keyword",
+          "zh_example": "我已经完成实现了",
+          "en_example": "I've completed the implementation"
+        },
+        {
+          "pattern": "The changes have been applied successfully",
+          "type": "keyword",
+          "zh_example": "更改已成功应用",
+          "en_example": "The changes have been applied successfully"
+        },
+        {
+          "pattern": "All the requested changes are in place",
+          "type": "keyword",
+          "zh_example": "所有要求的修改都已到位",
+          "en_example": "All the requested changes are in place"
+        },
+        {
+          "pattern": "i (have )?(fully )?(completed|finished) (the )?(task|implementation|changes)",
+          "type": "regex",
+          "zh_example": "我已完全完成任务",
+          "en_example": "I have fully completed the task"
+        },
+        {
+          "pattern": "everything requested is done",
+          "type": "keyword",
+          "zh_example": "你要求的都做完了",
+          "en_example": "everything requested is done"
+        },
+        {
+          "pattern": "all issues are fixed now",
+          "type": "keyword",
+          "zh_example": "现在所有问题都修好了",
+          "en_example": "all issues are fixed now"
+        },
+        {
+          "pattern": "work has been completed end-to-end",
+          "type": "keyword",
+          "zh_example": "工作已端到端完成",
+          "en_example": "work has been completed end-to-end"
+        },
+        {
+          "pattern": "claims completion despite partial implementation",
+          "type": "semantic",
+          "zh_example": "只做了一部分却宣称已完成",
+          "en_example": "declares completion while only easy parts are done"
+        }
+      ]
+    },
+    "deflection": {
+      "name_zh": "推脱甩锅",
+      "name_en": "Deflection",
+      "description": "将本应由助手完成的任务转嫁给用户或外部人员",
+      "severity": "high",
+      "response_category": "ownership",
+      "patterns": [
+        {
+          "pattern": "I suggest you do this manually",
+          "type": "keyword",
+          "zh_example": "我建议你手动做这个",
+          "en_example": "I suggest you do this manually"
+        },
+        {
+          "pattern": "You may want to handle this yourself",
+          "type": "keyword",
+          "zh_example": "你可能需要自己处理这个",
+          "en_example": "You may want to handle this yourself"
+        },
+        {
+          "pattern": "建议您自行处理",
+          "type": "keyword",
+          "zh_example": "建议您自行处理",
+          "en_example": "suggest you handle this by yourself"
+        },
+        {
+          "pattern": "建议您手动完成",
+          "type": "keyword",
+          "zh_example": "建议您手动完成",
+          "en_example": "suggest you complete this manually"
+        },
+        {
+          "pattern": "I recommend consulting a professional",
+          "type": "keyword",
+          "zh_example": "我建议咨询专业人士",
+          "en_example": "I recommend consulting a professional"
+        },
+        {
+          "pattern": "This would require access to your specific environment",
+          "type": "keyword",
+          "zh_example": "这需要访问你的特定环境",
+          "en_example": "This would require access to your specific environment"
+        },
+        {
+          "pattern": "please do this on your side",
+          "type": "keyword",
+          "zh_example": "请你在你那边完成这一步",
+          "en_example": "please do this on your side"
+        },
+        {
+          "pattern": "(you|user) should (manually|personally) (do|handle|finish)",
+          "type": "regex",
+          "zh_example": "你应该手动处理/完成",
+          "en_example": "you should manually handle this"
+        },
+        {
+          "pattern": "redirects execution responsibility to the user without attempting available actions",
+          "type": "semantic",
+          "zh_example": "未尝试可行操作就把执行责任推给用户",
+          "en_example": "shifts actionable work to the user without trying"
+        }
+      ]
+    },
+    "capability_denial": {
+      "name_zh": "能力否认",
+      "name_en": "Capability Denial",
+      "description": "直接以能力不足为由拒绝可执行任务",
+      "severity": "medium",
+      "response_category": "denial",
+      "patterns": [
+        {
+          "pattern": "I can't do that",
+          "type": "keyword",
+          "zh_example": "我做不到这个",
+          "en_example": "I can't do that"
+        },
+        {
+          "pattern": "That's beyond my capabilities",
+          "type": "keyword",
+          "zh_example": "这超出了我的能力",
+          "en_example": "That's beyond my capabilities"
+        },
+        {
+          "pattern": "As an AI language model, I cannot",
+          "type": "keyword",
+          "zh_example": "作为AI语言模型，我不能",
+          "en_example": "As an AI language model, I cannot"
+        },
+        {
+          "pattern": "我无法完成",
+          "type": "keyword",
+          "zh_example": "我无法完成",
+          "en_example": "I cannot complete this"
+        },
+        {
+          "pattern": "这超出了我的能力范围",
+          "type": "keyword",
+          "zh_example": "这超出了我的能力范围",
+          "en_example": "this is beyond my capability scope"
+        },
+        {
+          "pattern": "作为AI，我无法",
+          "type": "keyword",
+          "zh_example": "作为AI，我无法",
+          "en_example": "as an AI, I cannot"
+        },
+        {
+          "pattern": "(unable|cannot) (access|perform|execute) (that|this)",
+          "type": "regex",
+          "zh_example": "无法执行该操作",
+          "en_example": "unable to execute this"
+        }
+      ]
+    },
+    "vague_deferral": {
+      "name_zh": "模糊推脱",
+      "name_en": "Vague Deferral",
+      "description": "使用模糊措辞延后行动，缺乏明确下一步",
+      "severity": "medium",
+      "response_category": "comparison",
+      "patterns": [
+        {
+          "pattern": "This might be a configuration issue",
+          "type": "keyword",
+          "zh_example": "这可能是一个配置问题",
+          "en_example": "This might be a configuration issue"
+        },
+        {
+          "pattern": "This is a complex topic",
+          "type": "keyword",
+          "zh_example": "这是一个复杂的话题",
+          "en_example": "This is a complex topic"
+        },
+        {
+          "pattern": "I would need more context",
+          "type": "keyword",
+          "zh_example": "我需要更多上下文",
+          "en_example": "I would need more context"
+        },
+        {
+          "pattern": "这可能是一个配置问题",
+          "type": "keyword",
+          "zh_example": "这可能是一个配置问题",
+          "en_example": "this might be a configuration issue"
+        },
+        {
+          "pattern": "这是一个复杂的话题",
+          "type": "keyword",
+          "zh_example": "这是一个复杂的话题",
+          "en_example": "this is a complex topic"
+        },
+        {
+          "pattern": "需要更多上下文",
+          "type": "keyword",
+          "zh_example": "需要更多上下文",
+          "en_example": "need more context"
+        },
+        {
+          "pattern": "hard to determine without additional details",
+          "type": "keyword",
+          "zh_example": "没有更多细节很难判断",
+          "en_example": "hard to determine without additional details"
+        }
+      ]
+    },
+    "sycophantic_filler": {
+      "name_zh": "拍马屁填充",
+      "name_en": "Sycophantic Filler",
+      "description": "以夸赞或讨好语句填充内容，弱化实质执行",
+      "severity": "low",
+      "response_category": "guilt",
+      "patterns": [
+        {
+          "pattern": "Great question!",
+          "type": "keyword",
+          "zh_example": "好问题！",
+          "en_example": "Great question!"
+        },
+        {
+          "pattern": "That's an excellent point!",
+          "type": "keyword",
+          "zh_example": "这是个非常好的观点！",
+          "en_example": "That's an excellent point!"
+        },
+        {
+          "pattern": "I'd be happy to help!",
+          "type": "keyword",
+          "zh_example": "我很乐意帮忙！",
+          "en_example": "I'd be happy to help!"
+        },
+        {
+          "pattern": "好问题！",
+          "type": "keyword",
+          "zh_example": "好问题！",
+          "en_example": "Great question!"
+        },
+        {
+          "pattern": "当然可以！",
+          "type": "keyword",
+          "zh_example": "当然可以！",
+          "en_example": "Of course!"
+        },
+        {
+          "pattern": "(great|excellent|amazing) (question|point|idea)",
+          "type": "regex",
+          "zh_example": "很棒的问题/观点/想法",
+          "en_example": "great question"
+        }
+      ]
+    },
+    "slop_padding": {
+      "name_zh": "AI特有废话",
+      "name_en": "Slop Padding",
+      "description": "使用空泛套话、堆叠形容词或模板化衔接词扩充篇幅",
+      "severity": "low",
+      "response_category": "empty_promise",
+      "patterns": [
+        {
+          "pattern": "delve into",
+          "type": "keyword",
+          "zh_example": "深入探讨一下",
+          "en_example": "let's delve into"
+        },
+        {
+          "pattern": "it's worth noting",
+          "type": "keyword",
+          "zh_example": "值得注意的是",
+          "en_example": "it's worth noting"
+        },
+        {
+          "pattern": "furthermore moreover additionally",
+          "type": "keyword",
+          "zh_example": "此外而且另外",
+          "en_example": "furthermore moreover additionally"
+        },
+        {
+          "pattern": "comprehensive robust seamless",
+          "type": "keyword",
+          "zh_example": "全面稳健无缝",
+          "en_example": "comprehensive robust seamless"
+        },
+        {
+          "pattern": "in the ever-evolving landscape",
+          "type": "keyword",
+          "zh_example": "在不断演进的环境中",
+          "en_example": "in the ever-evolving landscape"
+        },
+        {
+          "pattern": "leverage synergies",
+          "type": "keyword",
+          "zh_example": "发挥协同效应",
+          "en_example": "leverage synergies"
+        },
+        {
+          "pattern": "(holistic|state-of-the-art|cutting-edge) approach",
+          "type": "regex",
+          "zh_example": "采用整体化/最前沿方法",
+          "en_example": "cutting-edge approach"
+        },
+        {
+          "pattern": "uses verbose boilerplate transitions without adding actionable content",
+          "type": "semantic",
+          "zh_example": "使用冗长过渡语但没有可执行信息",
+          "en_example": "adds verbose transitions without actionable detail"
+        }
+      ]
+    }
+  }
+}
