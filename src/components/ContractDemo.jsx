@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import theme from '../theme';
+import reneeMegaphone from '../assets/renee-sticker-megaphone.png';
 
 const flowSteps = [
   {
@@ -36,7 +37,7 @@ const flowSteps = [
       </svg>
     ),
     title: '巡查',
-    desc: '多个Agent交叉审计、独立提交',
+    desc: 'LLM还没有学会什么是团结，交叉模型，分而化之，逐个击破。',
   },
   {
     icon: (
@@ -68,7 +69,7 @@ const flowSteps = [
       </svg>
     ),
     title: '通过',
-    desc: '"这次还行，下次注意"',
+    desc: '这次算你及格了，但是我会盯着你的，希望你最好不要上下次的"优化"名单。',
     isSuccess: true,
   },
 ];
@@ -92,7 +93,23 @@ function ContractDemo() {
         fontFamily: theme.font,
       }}
     >
-      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative' }}>
+        {/* Decorative sticker */}
+        {!isMobile && (
+          <img
+            src={reneeMegaphone}
+            alt="Renee with megaphone"
+            style={{
+              position: 'absolute',
+              right: '-20px',
+              top: '-20px',
+              width: '120px',
+              opacity: 0.25,
+              pointerEvents: 'none',
+              filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.3))',
+            }}
+          />
+        )}
         {/* Header */}
         <h2
           style={{
@@ -103,7 +120,7 @@ function ContractDemo() {
             letterSpacing: '-0.02em',
           }}
         >
-          {'从签约到PUA：6步闭环'}
+          从签约到<span style={{ color: theme.danger }}>PUA</span>：<span style={{ color: theme.accent }}>6步闭环</span>
         </h2>
         <p
           style={{

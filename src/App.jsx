@@ -18,7 +18,7 @@ const NAV_ITEMS = [
   { key: 'nav.model', id: 'model' },
 ];
 
-const GITHUB_URL = 'https://github.com/shuaige121/reneepang.com';
+const GITHUB_URL = 'https://github.com/shuaige121/renee-pua-skill';
 
 function Navbar() {
   const { lang, setLang, t } = useI18n();

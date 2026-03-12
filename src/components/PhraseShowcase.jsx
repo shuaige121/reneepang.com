@@ -7,6 +7,7 @@ import puaMeme3 from '../assets/pua-meme-3.png';
 import puaMeme4 from '../assets/pua-meme-4.png';
 import puaMeme5 from '../assets/pua-meme-5.png';
 import puaMeme6 from '../assets/pua-meme-6.png';
+import reneeDisappointed from '../assets/renee-sticker-disappointed.png';
 
 const memeImages = [
   { src: puaMeme1, alt: '996是福报' },
@@ -125,7 +126,22 @@ function PhraseShowcase() {
         fontFamily: theme.font,
       }}
     >
-      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative' }}>
+        {/* Decorative sticker */}
+        <img
+          src={reneeDisappointed}
+          alt="Renee disappointed"
+          className="pua-sticker-decor"
+          style={{
+            position: 'absolute',
+            right: '-10px',
+            top: '10px',
+            width: '100px',
+            opacity: 0.2,
+            pointerEvents: 'none',
+            filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.3))',
+          }}
+        />
         {/* Header */}
         <h2
           style={{
@@ -136,7 +152,7 @@ function PhraseShowcase() {
             letterSpacing: '-0.02em',
           }}
         >
-          AI偷懒语录 vs 职场PUA回击
+          AI<span style={{ color: theme.danger }}>偷懒</span>语录 vs 职场<span style={{ color: theme.accent }}>PUA</span>回击
         </h2>
         <p
           style={{
@@ -146,7 +162,7 @@ function PhraseShowcase() {
             fontSize: '1.05rem',
           }}
         >
-          左边是你的AI说的废话，右边是Renee的回复。滑稽中带着窒息感。
+          左边是你的AI说的废话，右边是Renee的<span style={{ color: theme.danger, fontWeight: 600 }}>致命回复</span>。点击卡片查看对应梗图。
         </p>
 
         {/* Category filters */}
@@ -184,76 +200,7 @@ function PhraseShowcase() {
           })}
         </div>
 
-        {/* Meme thumbnail strip */}
-        <div
-          className="pua-meme-strip"
-          style={{
-            display: 'flex',
-            gap: '10px',
-            marginBottom: '24px',
-            overflowX: 'auto',
-            paddingBottom: '6px',
-            scrollbarWidth: 'thin',
-            scrollbarColor: `${theme.stroke} transparent`,
-          }}
-        >
-          {memeImages.map((meme, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => setLightboxIdx(idx)}
-              style={{
-                flexShrink: 0,
-                width: '160px',
-                height: '100px',
-                borderRadius: theme.radiusSm,
-                overflow: 'hidden',
-                border: `1px solid ${theme.stroke}`,
-                cursor: 'pointer',
-                padding: 0,
-                background: theme.card,
-                transition: 'transform 0.2s ease, border-color 0.2s ease',
-                position: 'relative',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.05)';
-                e.currentTarget.style.borderColor = theme.accent;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.borderColor = theme.stroke;
-              }}
-            >
-              <img
-                src={meme.src}
-                alt={meme.alt}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block',
-                }}
-              />
-              {/* Hover overlay hint */}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'rgba(0,0,0,0.35)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  opacity: 0,
-                  transition: 'opacity 0.2s ease',
-                  pointerEvents: 'none',
-                }}
-                className="meme-hover-overlay"
-              />
-            </button>
-          ))}
-        </div>
-
-        {/* Cards panel */}
+        {/* Cards panel — meme as background */}
         <div
           className="pua-cards-grid"
           style={{
@@ -266,26 +213,39 @@ function PhraseShowcase() {
             transition: 'opacity 0.25s ease, transform 0.25s ease',
           }}
         >
-          {/* LLM card */}
+          {/* LLM card with meme background */}
           <div
+            onClick={() => setLightboxIdx(currentIndex % memeImages.length)}
             style={{
               borderRadius: theme.radiusMd,
               padding: '26px',
-              minHeight: '190px',
+              minHeight: '220px',
               backgroundColor: theme.cardStrong,
               border: `1px solid ${theme.stroke}`,
               position: 'relative',
               overflow: 'hidden',
+              cursor: 'pointer',
             }}
           >
-            {/* Grid pattern overlay */}
+            {/* Meme background image */}
             <div
               style={{
                 position: 'absolute',
                 inset: 0,
-                opacity: 0.04,
-                backgroundImage:
-                  'repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(255,255,255,0.5) 19px, rgba(255,255,255,0.5) 20px), repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(255,255,255,0.5) 19px, rgba(255,255,255,0.5) 20px)',
+                backgroundImage: `url(${memeImages[currentIndex % memeImages.length].src})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                opacity: 0.08,
+                transition: 'opacity 0.3s ease',
+                pointerEvents: 'none',
+              }}
+            />
+            {/* Dark overlay for readability */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(135deg, rgba(20, 28, 43, 0.85) 0%, rgba(20, 28, 43, 0.7) 100%)',
                 pointerEvents: 'none',
               }}
             />
@@ -612,22 +572,15 @@ function PhraseShowcase() {
         </div>
       )}
 
-      {/* Responsive: meme strip scrolls horizontally by default, cards stack on narrow */}
+      {/* Responsive */}
       <style>{`
         @media (max-width: 680px) {
           .pua-cards-grid {
             grid-template-columns: 1fr !important;
           }
-        }
-        .pua-meme-strip::-webkit-scrollbar {
-          height: 4px;
-        }
-        .pua-meme-strip::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .pua-meme-strip::-webkit-scrollbar-thumb {
-          background: ${theme.stroke};
-          border-radius: 4px;
+          .pua-sticker-decor {
+            display: none !important;
+          }
         }
       `}</style>
     </section>

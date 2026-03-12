@@ -153,7 +153,7 @@ function Features() {
             fontWeight: 700,
           }}
         >
-          核心功能
+          核心<span style={{ color: theme.accent }}>功能</span>
         </h2>
         <p
           style={{
@@ -165,7 +165,7 @@ function Features() {
             maxWidth: '600px',
           }}
         >
-          别人家的AI都在996，你的AI还在摸鱼？看看这套管理体系。
+          别人家的AI都在<span style={{ color: theme.danger }}>996</span>，你的AI还在<span style={{ color: theme.accent2 }}>摸鱼</span>？看看这套管理体系。
         </p>
 
         <div

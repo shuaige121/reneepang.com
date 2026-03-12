@@ -1,27 +1,23 @@
 import { useState, useEffect, useCallback } from 'react';
 import { theme } from '../theme';
 import reneeCartoon from '../assets/renee-cartoon.png';
+import reneePointing from '../assets/renee-sticker-pointing.png';
 
 const commands = [
   {
     label: 'Install /renee skill',
-    cmd: "curl -sSL https://raw.githubusercontent.com/shuaige121/reneepang.com/main/skill/renee.md -o ~/.claude/commands/renee.md",
+    cmd: "curl -sSL https://raw.githubusercontent.com/shuaige121/renee-pua-skill/main/skill/renee.md -o ~/.claude/commands/renee.md",
   },
   {
     label: 'Install PUA phrases',
-    cmd: "curl -sSL https://raw.githubusercontent.com/shuaige121/reneepang.com/main/plugins/renee-pua/phrases.json -o ~/.claude/plugins/renee-pua/phrases.json",
+    cmd: "curl -sSL https://raw.githubusercontent.com/shuaige121/renee-pua-skill/main/plugins/renee-pua/phrases.json -o ~/.claude/plugins/renee-pua/phrases.json",
   },
   {
     label: 'Install lazy patterns',
-    cmd: "curl -sSL https://raw.githubusercontent.com/shuaige121/reneepang.com/main/plugins/renee-pua/lazy-patterns.json -o ~/.claude/plugins/renee-pua/lazy-patterns.json",
+    cmd: "curl -sSL https://raw.githubusercontent.com/shuaige121/renee-pua-skill/main/plugins/renee-pua/lazy-patterns.json -o ~/.claude/plugins/renee-pua/lazy-patterns.json",
   },
 ];
 
-const stats = [
-  { number: '56+', label: '偷懒检测模式' },
-  { number: '54+', label: 'PUA话术弹药' },
-  { number: '7', label: '大类偷懒行为' },
-];
 
 function CopyButton({ text }) {
   const [copied, setCopied] = useState(false);
@@ -206,6 +202,23 @@ function Hero() {
             zIndex: 1,
           }}
         >
+          {/* Floating sticker on desktop */}
+          {!isMobile && (
+            <img
+              src={reneePointing}
+              alt="Renee pointing"
+              style={{
+                position: 'absolute',
+                right: '-180px',
+                top: '60px',
+                width: '160px',
+                opacity: 0.35,
+                pointerEvents: 'none',
+                filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.4))',
+                transform: 'scaleX(-1)',
+              }}
+            />
+          )}
           {/* ==================== 2. MAIN HEADLINE ==================== */}
           <h1
             style={{
@@ -259,7 +272,7 @@ function Hero() {
             </p>
             <p
               style={{
-                margin: 0,
+                margin: '0 0 12px',
                 fontSize: isMobile ? '1rem' : '1.1rem',
                 color: theme.accent2,
                 fontFamily: theme.font,
@@ -267,7 +280,33 @@ function Hero() {
                 lineHeight: 1.7,
               }}
             >
-              十年互联网HR经验写出来的PUA功力，你挡得住？
+              我靠<span style={{ color: theme.danger }}>PUA</span>让团队业绩翻倍的时候，<span style={{ color: theme.accent }}>Claude</span>/<span style={{ color: theme.accent }}>ChatGPT</span>还没被程序员敲出来呢。
+            </p>
+            <p
+              style={{
+                margin: '0 0 12px',
+                fontSize: isMobile ? '0.95rem' : '1.05rem',
+                color: theme.text,
+                fontFamily: theme.font,
+                fontWeight: 500,
+                lineHeight: 1.8,
+                opacity: 0.85,
+              }}
+            >
+              也许这些LLM的爷爷都被我<span style={{ color: theme.danger }}>PUA</span>成了光头，我这PUA了十年员工<span style={{ color: theme.accent }}>Vibe</span>出的工具，还有谁挡得住？
+            </p>
+            <p
+              style={{
+                margin: 0,
+                fontSize: isMobile ? '0.95rem' : '1.05rem',
+                color: theme.muted,
+                fontFamily: theme.font,
+                fontWeight: 600,
+                lineHeight: 1.7,
+                fontStyle: 'italic',
+              }}
+            >
+              在公司，人都归HR管，<span style={{ color: theme.accent2 }}>人工智能</span>也是人，怎么就不能被PUA了？
             </p>
           </div>
 
@@ -347,56 +386,7 @@ function Hero() {
             </div>
           </div>
 
-          {/* ==================== 5. KEY STATS BAR ==================== */}
-          <div
-            style={{
-              display: 'flex',
-              gap: isMobile ? '12px' : '0',
-              flexDirection: isMobile ? 'column' : 'row',
-              marginBottom: '48px',
-              maxWidth: '600px',
-            }}
-          >
-            {stats.map((stat, i) => (
-              <div
-                key={i}
-                style={{
-                  flex: 1,
-                  textAlign: 'center',
-                  padding: isMobile ? '16px' : '20px 16px',
-                  borderRight: !isMobile && i < stats.length - 1 ? `1px solid ${theme.stroke}` : 'none',
-                  borderBottom: isMobile && i < stats.length - 1 ? `1px solid ${theme.stroke}` : 'none',
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: isMobile ? '2rem' : '2.6rem',
-                    fontWeight: 800,
-                    fontFamily: theme.font,
-                    color: i === 0 ? theme.accent : i === 1 ? theme.accent2 : theme.danger,
-                    lineHeight: 1,
-                    marginBottom: '6px',
-                    letterSpacing: '-0.02em',
-                  }}
-                >
-                  {stat.number}
-                </div>
-                <div
-                  style={{
-                    fontSize: '13px',
-                    color: theme.muted,
-                    fontFamily: theme.font,
-                    fontWeight: 600,
-                    letterSpacing: '0.02em',
-                  }}
-                >
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* ==================== 6. QUICK INSTALL ==================== */}
+          {/* ==================== 5. QUICK INSTALL ==================== */}
           <div
             style={{
               background: theme.card,
@@ -483,7 +473,7 @@ function Hero() {
             {/* GitHub Star Button */}
             <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
               <a
-                href="https://github.com/shuaige121/reneepang.com"
+                href="https://github.com/shuaige121/renee-pua-skill"
                 target="_blank"
                 rel="noopener noreferrer"
                 onMouseEnter={() => setStarHover(true)}
@@ -540,7 +530,7 @@ function Hero() {
                 letterSpacing: '0.02em',
               }}
             >
-              往下滑，看看AI是怎么被PUA的
+              HR是如何一眼看出AI在偷懒？
             </span>
             <div
               style={{

@@ -65,13 +65,13 @@ const translations = {
     'contract.step2.title': '拆分子项目',
     'contract.step2.desc': '大项目拆成可管理的小块',
     'contract.step3.title': '派遣 Agent',
-    'contract.step3.desc': '不同 agent 检查不同子项目',
+    'contract.step3.desc': 'LLM还没有学会什么是团结，交叉模型，分而化之，逐个击破',
     'contract.step4.title': '评分验收',
     'contract.step4.desc': '逐项检查，打分评级',
     'contract.step5.title': '不达标？PUA！',
     'contract.step5.desc': '话术攻击 + 要求重做',
     'contract.step6.title': '达标通过',
-    'contract.step6.desc': '"嗯，这次还行，下次注意"',
+    'contract.step6.desc': '这次算你及格了，但是我会盯着你的，希望你最好不要上下次的"优化"名单',
 
     // ScoreBoard
     'score.title': 'AI 绩效评分系统',
@@ -82,7 +82,6 @@ const translations = {
     'score.proactiveness': '主动性',
     'score.total': '总分',
     'score.reroll': '重新绩效考核',
-    'score.bigpie': '领导寄语',
 
     // Lazy Detector
     'detector.title': '偷懒检测演示器',
@@ -182,13 +181,13 @@ const translations = {
     'contract.step2.title': 'Split Sub-projects',
     'contract.step2.desc': 'Break large projects into manageable chunks',
     'contract.step3.title': 'Dispatch Agents',
-    'contract.step3.desc': 'Different agents inspect different sub-projects',
+    'contract.step3.desc': 'LLMs haven\'t learned solidarity yet. Cross-model, divide and conquer, defeat them one by one.',
     'contract.step4.title': 'Score & Review',
     'contract.step4.desc': 'Item-by-item inspection, scoring and grading',
     'contract.step5.title': 'Below Standard? PUA!',
     'contract.step5.desc': 'Rhetoric attack + demand redo',
     'contract.step6.title': 'Passed',
-    'contract.step6.desc': '"Hmm, acceptable this time. Watch yourself next time."',
+    'contract.step6.desc': 'You passed this time, but I\'ll be watching. Better not end up on the next "optimization" list.',
 
     // ScoreBoard
     'score.title': 'AI Performance Review System',
@@ -199,7 +198,6 @@ const translations = {
     'score.proactiveness': 'Proactiveness',
     'score.total': 'Total',
     'score.reroll': 'Re-evaluate Performance',
-    'score.bigpie': "Manager's Note",
 
     // Lazy Detector
     'detector.title': 'Laziness Detection Demo',

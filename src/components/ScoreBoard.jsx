@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import theme from '../theme';
+import reneeGrading from '../assets/renee-sticker-grading.png';
 
 const scoreDimensions = [
   { key: 'completeness', label: '完整性 (Completeness)', max: 30 },
@@ -47,20 +48,6 @@ const commentsFail = [
   '我真的不想在全员会上点名批评你，但你再这样下去我没办法了。',
 ];
 
-const bigPies = [
-  '加油哦，做好这个项目，下半年给你涨薪（具体多少到时候再说）',
-  '你这个方向很有前景，好好搞，我跟VP提过你了（其实没有）',
-  '等这波忙完了请你们团建（已经说了三年了）',
-  '好好表现，年底考虑让你带个小团队（前提是你要活到年底）',
-  '公司马上要上市了，你现在多加班以后都是值得的（上市遥遥无期）',
-  '你做得好的话，明年股票池里考虑给你分一点（池子里没水了）',
-  '下个Q给你申请一个mentor名额，以后升职快（mentor离职了）',
-  '等项目上线了我帮你争取调休（项目永远不上线）',
-  '今年你是我心里的高潜人才，好好干（高潜名单上没你）',
-  '你的努力我都看在眼里，适当时候会给你惊喜的（惊喜是加班）',
-  '下次晋升答辩我一定推荐你（推荐信还没写就忘了）',
-  '等融资到位了，你就是元老功臣（融资八字没一撇）',
-];
 
 function pickRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -76,7 +63,6 @@ function getBarColor(value, max) {
 function ScoreBoard() {
   const [scores, setScores] = useState(() => createRandomScores());
   const [comment, setComment] = useState('');
-  const [pie, setPie] = useState('');
   const [isAnimating, setIsAnimating] = useState(false);
 
   const totalScore = useMemo(
@@ -99,7 +85,6 @@ function ScoreBoard() {
     else if (totalScore >= 50) pool = commentsMediocre;
     else pool = commentsFail;
     setComment(pickRandom(pool));
-    setPie(pickRandom(bigPies));
   }, [totalScore]);
 
   const rerollScores = () => {
@@ -118,7 +103,22 @@ function ScoreBoard() {
         fontFamily: theme.font,
       }}
     >
-      <div style={{ maxWidth: '980px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '980px', margin: '0 auto', position: 'relative' }}>
+        {/* Decorative grading sticker */}
+        <img
+          src={reneeGrading}
+          alt="Renee grading"
+          style={{
+            position: 'absolute',
+            right: '-10px',
+            top: '-30px',
+            width: '110px',
+            opacity: 0.2,
+            pointerEvents: 'none',
+            filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.3))',
+            display: 'var(--sticker-display, block)',
+          }}
+        />
         {/* Header */}
         <h2
           style={{
@@ -129,7 +129,7 @@ function ScoreBoard() {
             letterSpacing: '-0.02em',
           }}
         >
-          AI 绩效评分系统
+          AI <span style={{ color: theme.danger }}>绩效</span>评分系统
         </h2>
         <p
           style={{
@@ -329,55 +329,6 @@ function ScoreBoard() {
           </p>
         </div>
 
-        {/* Big Pie section */}
-        <div
-          style={{
-            marginTop: '16px',
-            backgroundColor: theme.cardStrong,
-            border: `1px solid rgba(245, 184, 81, 0.2)`,
-            borderRadius: theme.radiusMd,
-            padding: '20px 24px',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          {/* Gold accent line */}
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: '2px',
-              background: `linear-gradient(90deg, transparent 0%, ${theme.accent2} 50%, transparent 100%)`,
-            }}
-          />
-          <h4
-            style={{
-              margin: '0 0 8px',
-              fontSize: '0.8rem',
-              fontWeight: 700,
-              color: theme.accent2,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-            }}
-          >
-            Manager&apos;s Note (画大饼)
-          </h4>
-          <p
-            style={{
-              margin: 0,
-              color: theme.accent2,
-              fontSize: '1rem',
-              lineHeight: 1.7,
-              fontStyle: 'italic',
-              fontWeight: 500,
-              opacity: 0.9,
-            }}
-          >
-            &ldquo;{pie}&rdquo;
-          </p>
-        </div>
       </div>
     </section>
   );
