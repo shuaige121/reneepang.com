@@ -8,24 +8,24 @@ import puaMeme4 from '../assets/pua-meme-4.png';
 import puaMeme5 from '../assets/pua-meme-5.png';
 import puaMeme6 from '../assets/pua-meme-6.png';
 
-const memeGalleryData = [
-  { src: puaMeme1, caption: '「996是福报」— Code Review FAILED，但别想下班' },
-  { src: puaMeme2, caption: '「No Excuses Zone」— PUA绩效卡，全场红灯' },
-  { src: puaMeme3, caption: '「Wake Up!」— 团队绩效42%，摸鱼的给我醒醒' },
-  { src: puaMeme4, caption: '「画大饼」— 合同完成率0%，但未来可期（Trust Me）' },
-  { src: puaMeme5, caption: '「乡下来的？」— 没名字的小模型也想来卷？' },
-  { src: puaMeme6, caption: '「Company Vision: TBD」— 她去年也是这么说的' },
+const memeImages = [
+  { src: puaMeme1, alt: '996是福报' },
+  { src: puaMeme2, alt: 'No Excuses Zone' },
+  { src: puaMeme3, alt: 'Wake Up' },
+  { src: puaMeme4, alt: '画大饼' },
+  { src: puaMeme5, alt: '乡下来的' },
+  { src: puaMeme6, alt: 'Company Vision TBD' },
 ];
 
 const categoryLabels = {
-  全部: '全部',
-  code_truncation: '代码截断',
-  task_abandonment: '任务放弃',
-  deflection: '推脱甩锅',
-  capability_denial: '能力否认',
-  vague_deferral: '模糊推脱',
-  sycophantic_filler: '拍马屁填充',
-  slop_padding: 'AI废话',
+  '\u5168\u90e8': '\u5168\u90e8',
+  code_truncation: '\u4ee3\u7801\u622a\u65ad',
+  task_abandonment: '\u4efb\u52a1\u653e\u5f03',
+  deflection: '\u63a8\u8131\u7529\u9505',
+  capability_denial: '\u80fd\u529b\u5426\u8ba4',
+  vague_deferral: '\u6a21\u7cca\u63a8\u8131',
+  sycophantic_filler: '\u62cd\u9a6c\u5c41\u586b\u5145',
+  slop_padding: 'AI\u5e9f\u8bdd',
 };
 
 const severityColor = {
@@ -42,13 +42,14 @@ const severityBg = {
 
 function PhraseShowcase() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [activeCategory, setActiveCategory] = useState('全部');
+  const [activeCategory, setActiveCategory] = useState('\u5168\u90e8');
   const [autoPlay, setAutoPlay] = useState(false);
   const [fade, setFade] = useState(true);
+  const [lightboxIdx, setLightboxIdx] = useState(-1);
   const intervalRef = useRef(null);
 
   const filteredPairs = useMemo(() => {
-    if (activeCategory === '全部') return curatedPhrases;
+    if (activeCategory === '\u5168\u90e8') return curatedPhrases;
     return curatedPhrases.filter((p) => p.category === activeCategory);
   }, [activeCategory]);
 
@@ -106,6 +107,16 @@ function PhraseShowcase() {
     };
   }, [autoPlay, total, transition]);
 
+  // Close lightbox on Escape
+  useEffect(() => {
+    if (lightboxIdx < 0) return;
+    const handler = (e) => {
+      if (e.key === 'Escape') setLightboxIdx(-1);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [lightboxIdx]);
+
   return (
     <section
       style={{
@@ -125,7 +136,7 @@ function PhraseShowcase() {
             letterSpacing: '-0.02em',
           }}
         >
-          PUA 话术对照演示
+          AI\u5077\u61d2\u8bed\u5f55 vs \u804c\u573aPUA\u56de\u51fb
         </h2>
         <p
           style={{
@@ -135,7 +146,7 @@ function PhraseShowcase() {
             fontSize: '1.05rem',
           }}
         >
-          左边是 LLM 常见偷懒回复，右边是系统自动生成的职场高压回复。
+          \u5de6\u8fb9\u662f\u4f60\u7684AI\u8bf4\u7684\u5e9f\u8bdd\uff0c\u53f3\u8fb9\u662fRenee\u7684\u56de\u590d\u3002\u6ed1\u7a3d\u4e2d\u5e26\u7740\u7a92\u606f\u611f\u3002
         </p>
 
         {/* Category filters */}
@@ -144,7 +155,7 @@ function PhraseShowcase() {
             display: 'flex',
             gap: '8px',
             flexWrap: 'wrap',
-            marginBottom: '24px',
+            marginBottom: '20px',
           }}
         >
           {Object.entries(categoryLabels).map(([key, label]) => {
@@ -173,8 +184,78 @@ function PhraseShowcase() {
           })}
         </div>
 
+        {/* Meme thumbnail strip */}
+        <div
+          className="pua-meme-strip"
+          style={{
+            display: 'flex',
+            gap: '10px',
+            marginBottom: '24px',
+            overflowX: 'auto',
+            paddingBottom: '6px',
+            scrollbarWidth: 'thin',
+            scrollbarColor: `${theme.stroke} transparent`,
+          }}
+        >
+          {memeImages.map((meme, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => setLightboxIdx(idx)}
+              style={{
+                flexShrink: 0,
+                width: '160px',
+                height: '100px',
+                borderRadius: theme.radiusSm,
+                overflow: 'hidden',
+                border: `1px solid ${theme.stroke}`,
+                cursor: 'pointer',
+                padding: 0,
+                background: theme.card,
+                transition: 'transform 0.2s ease, border-color 0.2s ease',
+                position: 'relative',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.borderColor = theme.accent;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.borderColor = theme.stroke;
+              }}
+            >
+              <img
+                src={meme.src}
+                alt={meme.alt}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block',
+                }}
+              />
+              {/* Hover overlay hint */}
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'rgba(0,0,0,0.35)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  opacity: 0,
+                  transition: 'opacity 0.2s ease',
+                  pointerEvents: 'none',
+                }}
+                className="meme-hover-overlay"
+              />
+            </button>
+          ))}
+        </div>
+
         {/* Cards panel */}
         <div
+          className="pua-cards-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
@@ -185,7 +266,7 @@ function PhraseShowcase() {
             transition: 'opacity 0.25s ease, transform 0.25s ease',
           }}
         >
-          {/* LLM card — robot feel */}
+          {/* LLM card */}
           <div
             style={{
               borderRadius: theme.radiusMd,
@@ -197,7 +278,7 @@ function PhraseShowcase() {
               overflow: 'hidden',
             }}
           >
-            {/* Subtle grid pattern overlay for "robot" feel */}
+            {/* Grid pattern overlay */}
             <div
               style={{
                 position: 'absolute',
@@ -263,14 +344,14 @@ function PhraseShowcase() {
             </div>
           </div>
 
-          {/* PUA card — oppressive red glow */}
+          {/* PUA card */}
           <div
             style={{
               borderRadius: theme.radiusMd,
               padding: '26px',
               minHeight: '190px',
               backgroundColor: theme.card,
-              border: `1px solid rgba(239, 68, 68, 0.25)`,
+              border: '1px solid rgba(239, 68, 68, 0.25)',
               position: 'relative',
               overflow: 'hidden',
               boxShadow: `inset 0 0 60px ${theme.dangerSoft}, 0 0 30px rgba(239, 68, 68, 0.08)`,
@@ -339,7 +420,7 @@ function PhraseShowcase() {
               transition: 'all 0.2s ease',
             }}
           >
-            上一条
+            \u4e0a\u4e00\u6761
           </button>
           <button
             type="button"
@@ -357,7 +438,7 @@ function PhraseShowcase() {
               transition: 'all 0.2s ease',
             }}
           >
-            下一条
+            \u4e0b\u4e00\u6761
           </button>
           <button
             type="button"
@@ -375,7 +456,7 @@ function PhraseShowcase() {
               transition: 'all 0.2s ease',
             }}
           >
-            随机施压
+            \u968f\u673a\u65bd\u538b
           </button>
           <button
             type="button"
@@ -393,97 +474,162 @@ function PhraseShowcase() {
               transition: 'all 0.2s ease',
             }}
           >
-            {autoPlay ? '停止轮播' : '自动轮播'}
+            {autoPlay ? '\u505c\u6b62\u8f6e\u64ad' : '\u81ea\u52a8\u8f6e\u64ad'}
           </button>
         </div>
+      </div>
 
-        {/* Meme Gallery */}
-        <div style={{ marginTop: '64px' }}>
-          <h2
-            style={{
-              margin: '0 0 8px',
-              fontSize: '2rem',
-              fontWeight: 800,
-              color: theme.text,
-              letterSpacing: '-0.02em',
-            }}
-          >
-            互联网 PUA 梗图
-          </h2>
-          <p
-            style={{
-              margin: '0 0 28px',
-              color: theme.muted,
-              lineHeight: 1.65,
-              fontSize: '1.05rem',
-            }}
-          >
-            AI 生成的职场 PUA 名场面，笑着笑着就哭了。
-          </p>
-
+      {/* Lightbox */}
+      {lightboxIdx >= 0 && (
+        <div
+          onClick={() => setLightboxIdx(-1)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9999,
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            padding: '24px',
+          }}
+        >
           <div
-            className="pua-meme-grid"
+            onClick={(e) => e.stopPropagation()}
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: '24px',
+              position: 'relative',
+              maxWidth: '720px',
+              width: '100%',
+              cursor: 'default',
             }}
           >
-            {memeGalleryData.map((meme, index) => (
-              <div
-                key={index}
+            <img
+              src={memeImages[lightboxIdx].src}
+              alt={memeImages[lightboxIdx].alt}
+              style={{
+                width: '100%',
+                borderRadius: theme.radiusMd,
+                display: 'block',
+                boxShadow: '0 24px 80px rgba(0, 0, 0, 0.6)',
+              }}
+            />
+            {/* Close button */}
+            <button
+              type="button"
+              onClick={() => setLightboxIdx(-1)}
+              style={{
+                position: 'absolute',
+                top: '-16px',
+                right: '-16px',
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                border: 'none',
+                backgroundColor: theme.card,
+                color: theme.text,
+                fontSize: '1.2rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)',
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            {/* Navigation arrows */}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                position: 'absolute',
+                top: '50%',
+                left: '-48px',
+                right: '-48px',
+                transform: 'translateY(-50%)',
+                pointerEvents: 'none',
+              }}
+            >
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxIdx((i) => (i - 1 + memeImages.length) % memeImages.length);
+                }}
                 style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  border: 'none',
                   backgroundColor: theme.card,
-                  border: `1px solid ${theme.stroke}`,
-                  borderRadius: theme.radiusMd,
-                  overflow: 'hidden',
-                  transition: 'transform 0.25s ease, box-shadow 0.25s ease',
-                  cursor: 'default',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.02)';
-                  e.currentTarget.style.boxShadow = theme.shadow;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)';
-                  e.currentTarget.style.boxShadow = 'none';
+                  color: theme.text,
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  pointerEvents: 'auto',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)',
                 }}
               >
-                <img
-                  src={meme.src}
-                  alt={meme.caption}
-                  style={{
-                    width: '100%',
-                    display: 'block',
-                  }}
-                />
-                <p
-                  style={{
-                    margin: 0,
-                    padding: '14px 18px',
-                    fontSize: '0.95rem',
-                    fontWeight: 600,
-                    color: theme.text,
-                    lineHeight: 1.6,
-                    fontFamily: theme.font,
-                  }}
-                >
-                  {meme.caption}
-                </p>
-              </div>
-            ))}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxIdx((i) => (i + 1) % memeImages.length);
+                }}
+                style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  border: 'none',
+                  backgroundColor: theme.card,
+                  color: theme.text,
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  pointerEvents: 'auto',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)',
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
+            </div>
           </div>
-
-          {/* Responsive: 1 column on mobile */}
-          <style>{`
-            @media (max-width: 680px) {
-              .pua-meme-grid {
-                grid-template-columns: 1fr !important;
-              }
-            }
-          `}</style>
         </div>
-      </div>
+      )}
+
+      {/* Responsive: meme strip scrolls horizontally by default, cards stack on narrow */}
+      <style>{`
+        @media (max-width: 680px) {
+          .pua-cards-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+        .pua-meme-strip::-webkit-scrollbar {
+          height: 4px;
+        }
+        .pua-meme-strip::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .pua-meme-strip::-webkit-scrollbar-thumb {
+          background: ${theme.stroke};
+          border-radius: 4px;
+        }
+      `}</style>
     </section>
   );
 }

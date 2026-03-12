@@ -1,24 +1,22 @@
 import { useState, useEffect } from 'react';
-import { theme } from '../theme';
-import reneeStickerDisappointed from '../assets/renee-sticker-disappointed.png';
+import theme from '../theme';
 
 const flowSteps = [
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={theme.accent2} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={theme.accent2} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
         <polyline points="14 2 14 8 20 8" />
         <line x1="16" y1="13" x2="8" y2="13" />
         <line x1="16" y1="17" x2="8" y2="17" />
-        <polyline points="10 9 9 9 8 9" />
       </svg>
     ),
-    title: '签订 Contract',
-    description: '明确交付物清单、验收标准、截止轮次和失败惩罚条款。',
+    title: '\u7b7e\u7ea6',
+    desc: '\u660e\u786e\u4ea4\u4ed8\u7269\u3001\u9a8c\u6536\u6807\u51c6\u3001\u5931\u8d25\u60e9\u7f5a',
   },
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={theme.accent2} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={theme.accent2} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <line x1="8" y1="6" x2="21" y2="6" />
         <line x1="8" y1="12" x2="21" y2="12" />
         <line x1="8" y1="18" x2="21" y2="18" />
@@ -27,51 +25,51 @@ const flowSteps = [
         <line x1="3" y1="18" x2="3.01" y2="18" />
       </svg>
     ),
-    title: '拆分子项目',
-    description: '大项目按模块/层级/里程碑拆成 2-5 个可管理的子合同。',
+    title: '\u62c6\u5206',
+    desc: '\u6309\u6a21\u5757\u62c6\u62102-5\u4e2a\u5b50\u5408\u540c',
   },
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={theme.accent2} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 00-3-3.87" />
-        <path d="M16 3.13a4 4 0 010 7.75" />
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={theme.accent2} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+        <circle cx="12" cy="12" r="3" />
       </svg>
     ),
-    title: '派遣 Agent',
-    description: '不同 agent 检查不同子项目，交叉审计、独立提交评分。',
+    title: '\u5de1\u67e5',
+    desc: '\u591a\u4e2aAgent\u4ea4\u53c9\u5ba1\u8ba1\u3001\u72ec\u7acb\u63d0\u4ea4',
   },
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={theme.accent2} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={theme.accent2} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <line x1="18" y1="20" x2="18" y2="10" />
         <line x1="12" y1="20" x2="12" y2="4" />
         <line x1="6" y1="20" x2="6" y2="14" />
       </svg>
     ),
-    title: '评分验收',
-    description: '四维度打分：完整性、正确性、代码质量、主动性，满分 100。',
+    title: '\u8bc4\u5206',
+    desc: '\u56db\u7ef4\u5ea6\u6253\u5206\uff0c\u6ee1\u5206100',
   },
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={theme.danger} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={theme.danger} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10" />
         <line x1="15" y1="9" x2="9" y2="15" />
         <line x1="9" y1="9" x2="15" y2="15" />
       </svg>
     ),
-    title: '不达标？PUA！',
-    description: '6 大类话术攻击 + 偷懒检测警报 + 要求强制返工。',
+    title: 'PUA!',
+    desc: '\u8bdd\u672f\u653b\u51fb+\u5f3a\u5236\u8fd4\u5de5',
+    isDanger: true,
   },
   {
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={theme.accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={theme.accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="20 6 9 17 4 12" />
       </svg>
     ),
-    title: '达标通过',
-    description: '"嗯，这次还行，下次注意。" — 然后开始画饼。',
+    title: '\u901a\u8fc7',
+    desc: '"\u8fd9\u6b21\u8fd8\u884c\uff0c\u4e0b\u6b21\u6ce8\u610f"',
+    isSuccess: true,
   },
 ];
 
@@ -89,99 +87,58 @@ function ContractDemo() {
   return (
     <section
       style={{
-        backgroundColor: theme.bg,
-        padding: isMobile ? '64px 20px' : '92px 40px',
+        backgroundColor: theme.bgSoft,
+        padding: isMobile ? '56px 20px' : '72px 40px',
+        fontFamily: theme.font,
       }}
     >
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        {/* Header */}
         <h2
           style={{
-            margin: '0 0 8px',
-            fontSize: isMobile ? '1.6rem' : '2rem',
+            margin: '0 0 6px',
+            fontSize: isMobile ? '1.5rem' : '1.85rem',
             color: theme.text,
-            fontFamily: theme.font,
-            fontWeight: 700,
+            fontWeight: 800,
+            letterSpacing: '-0.02em',
           }}
         >
-          Contract 工作流演示
+          {'\u4ece\u7b7e\u7ea6\u5230PUA\uff1a6\u6b65\u95ed\u73af'}
         </h2>
         <p
           style={{
-            margin: '0 0 48px',
+            margin: '0 0 36px',
             color: theme.muted,
-            lineHeight: 1.7,
-            fontFamily: theme.font,
-            maxWidth: '600px',
+            lineHeight: 1.65,
+            fontSize: '1rem',
+            maxWidth: '520px',
           }}
         >
-          从签订到验收的全链路流程，确保每一步都可追溯、可追责。
+          {'\u4e0d\u662f\u4f60\u4e0d\u52aa\u529b\uff0c\u662f\u4f60\u4e0d\u77e5\u9053\u5408\u540c\u5df2\u7ecf\u7b7e\u4e86\u3002'}
         </p>
 
+        {/* Grid layout: 3 columns desktop, 2 columns tablet, 1 column mobile */}
         <div
+          className="contract-flow-grid"
           style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+            gap: '16px',
             position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: isMobile ? '20px' : '24px',
-            padding: '8px 0',
           }}
         >
-          {/* Renee sticker - disappointed */}
-          {!isMobile && (
-            <img
-              src={reneeStickerDisappointed}
-              alt=""
-              className="renee-sticker-contract"
-              style={{
-                position: 'absolute',
-                bottom: '30px',
-                right: '-60px',
-                height: '180px',
-                width: 'auto',
-                pointerEvents: 'none',
-                filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.4))',
-                zIndex: 3,
-                opacity: 0.9,
-                transform: 'rotate(2deg)',
-              }}
-            />
-          )}
-          {/* Timeline line */}
-          {!isMobile && (
-            <div
-              style={{
-                position: 'absolute',
-                left: '50%',
-                top: 0,
-                bottom: 0,
-                width: '2px',
-                background: `linear-gradient(180deg, ${theme.accent} 0%, ${theme.accent2} 50%, ${theme.danger} 100%)`,
-                transform: 'translateX(-50%)',
-                opacity: 0.6,
-              }}
-            />
-          )}
-
-          {/* Mobile: thin left line */}
-          {isMobile && (
-            <div
-              style={{
-                position: 'absolute',
-                left: '19px',
-                top: 0,
-                bottom: 0,
-                width: '2px',
-                background: `linear-gradient(180deg, ${theme.accent} 0%, ${theme.accent2} 50%, ${theme.danger} 100%)`,
-                opacity: 0.5,
-              }}
-            />
-          )}
-
           {flowSteps.map((step, index) => {
-            const isLeft = index % 2 === 0;
             const isHovered = hoveredIndex === index;
-            const isLast = index === flowSteps.length - 1;
-            const isFail = index === 4;
+            const borderColor = step.isDanger
+              ? theme.danger
+              : step.isSuccess
+                ? theme.accent
+                : theme.accent2;
+            const stepNumColor = step.isDanger
+              ? theme.danger
+              : step.isSuccess
+                ? theme.accent
+                : theme.accent2;
 
             return (
               <div
@@ -190,122 +147,118 @@ function ContractDemo() {
                 onMouseLeave={() => setHoveredIndex(-1)}
                 style={{
                   position: 'relative',
-                  display: 'flex',
-                  width: '100%',
-                  ...(isMobile
-                    ? {
-                        paddingLeft: '48px',
-                      }
-                    : {
-                        justifyContent: isLeft ? 'flex-start' : 'flex-end',
-                        ...(isLeft
-                          ? { paddingRight: 'calc(50% + 32px)' }
-                          : { paddingLeft: 'calc(50% + 32px)' }),
-                      }),
+                  backgroundColor: theme.card,
+                  borderRadius: theme.radiusSm,
+                  border: `1px solid ${isHovered ? borderColor : theme.stroke}`,
+                  padding: '20px',
+                  transition: 'all 0.25s ease',
+                  transform: isHovered ? 'translateY(-3px)' : 'translateY(0)',
+                  boxShadow: isHovered
+                    ? `0 8px 28px rgba(0, 0, 0, 0.3), 0 0 0 1px ${step.isDanger ? 'rgba(239, 68, 68, 0.12)' : step.isSuccess ? theme.accentSoft : 'rgba(245, 184, 81, 0.12)'}`
+                    : '0 2px 8px rgba(0, 0, 0, 0.15)',
+                  cursor: 'default',
                 }}
               >
-                {/* Dot */}
-                <span
+                {/* Top row: step number + icon */}
+                <div
                   style={{
-                    position: 'absolute',
-                    left: isMobile ? '12px' : '50%',
-                    top: '22px',
-                    width: '16px',
-                    height: '16px',
-                    borderRadius: '50%',
-                    transform: isMobile ? 'none' : 'translateX(-50%)',
-                    backgroundColor: isFail
-                      ? theme.danger
-                      : isLast
-                        ? theme.accent
-                        : theme.accent2,
-                    border: `3px solid ${theme.bgSoft}`,
-                    boxShadow: `0 0 0 4px ${
-                      isFail
-                        ? theme.dangerSoft
-                        : isLast
-                          ? theme.accentSoft
-                          : 'rgba(245, 184, 81, 0.15)'
-                    }, 0 0 ${isHovered ? '16px' : '8px'} ${
-                      isFail
-                        ? 'rgba(239, 68, 68, 0.3)'
-                        : isLast
-                          ? 'rgba(43, 212, 199, 0.2)'
-                          : 'rgba(245, 184, 81, 0.15)'
-                    }`,
-                    zIndex: 2,
-                    transition: 'box-shadow 0.3s ease',
-                  }}
-                />
-
-                {/* Card */}
-                <article
-                  style={{
-                    width: '100%',
-                    maxWidth: isMobile ? 'none' : '440px',
-                    borderRadius: theme.radiusMd,
-                    border: `1px solid ${isHovered ? (isFail ? theme.danger : theme.accent) : theme.stroke}`,
-                    backgroundColor: theme.card,
-                    padding: '20px 22px',
-                    boxShadow: isHovered
-                      ? `0 12px 36px rgba(0, 0, 0, 0.35), 0 0 0 1px ${isFail ? 'rgba(239, 68, 68, 0.15)' : theme.accentSoft}`
-                      : '0 6px 20px rgba(0, 0, 0, 0.2)',
-                    transition: 'all 0.28s ease',
-                    transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginBottom: '12px',
                   }}
                 >
-                  {/* Step header */}
+                  <span
+                    style={{
+                      fontSize: '0.72rem',
+                      fontWeight: 700,
+                      color: stepNumColor,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    STEP {index + 1}
+                  </span>
+                  <span style={{ flexShrink: 0, opacity: 0.9 }}>{step.icon}</span>
+                </div>
+
+                {/* Title */}
+                <h3
+                  style={{
+                    margin: '0 0 6px',
+                    fontSize: '1.05rem',
+                    color: theme.text,
+                    fontWeight: 700,
+                  }}
+                >
+                  {step.title}
+                </h3>
+
+                {/* Description */}
+                <p
+                  style={{
+                    margin: 0,
+                    color: theme.muted,
+                    fontSize: '0.85rem',
+                    lineHeight: 1.55,
+                  }}
+                >
+                  {step.desc}
+                </p>
+
+                {/* Connector arrow to next card (not on last, not on mobile) */}
+                {index < flowSteps.length - 1 && !isMobile && (
                   <div
                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      marginBottom: '10px',
-                    }}
-                  >
-                    <span style={{ flexShrink: 0 }}>{step.icon}</span>
-                    <span
-                      style={{
-                        fontSize: '12px',
-                        fontWeight: 700,
-                        color: isFail ? theme.danger : theme.accent2,
-                        fontFamily: theme.font,
-                        letterSpacing: '0.06em',
-                      }}
-                    >
-                      STEP {index + 1}
-                    </span>
-                  </div>
-
-                  <h3
-                    style={{
-                      margin: '0 0 8px',
-                      fontSize: '1.05rem',
-                      color: theme.text,
-                      fontFamily: theme.font,
-                      fontWeight: 600,
-                    }}
-                  >
-                    {step.title}
-                  </h3>
-
-                  <p
-                    style={{
-                      margin: 0,
+                      position: 'absolute',
+                      right: '-12px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      zIndex: 2,
                       color: theme.muted,
-                      lineHeight: 1.65,
-                      fontSize: '0.9rem',
-                      fontFamily: theme.font,
+                      opacity: 0.5,
+                      fontSize: '0.85rem',
+                      lineHeight: 1,
+                      // Hide arrow when it would be at end of row (index 2)
+                      display: index === 2 ? 'none' : 'block',
                     }}
                   >
-                    {step.description}
-                  </p>
-                </article>
+                    <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
+                      <path d="M1 1l7 6-7 6" stroke={theme.muted} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
+
+        {/* Connector between row 1 and row 2 (desktop only) */}
+        {!isMobile && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              margin: '-4px 0',
+              position: 'relative',
+              zIndex: 1,
+            }}
+          >
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none" style={{ opacity: 0.4 }}>
+              <path d="M1 1l6 7 6-7" stroke={theme.muted} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+        )}
       </div>
+
+      {/* Responsive: 2 columns on tablet */}
+      <style>{`
+        @media (min-width: 480px) and (max-width: 767px) {
+          .contract-flow-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

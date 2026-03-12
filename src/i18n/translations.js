@@ -112,9 +112,9 @@ const translations = {
     'model.unknown': '未知模型',
 
     // Footer
-    'footer.copyright': '\u00a9 2026 Renee \u7684\u804c\u573a\u5c0f\u5999\u62db',
-    'footer.disclaimer1': '本工具仅用于"激励" AI 完成任务，如有雷同纯属巧合',
-    'footer.disclaimer2': '免责声明：页面内容为职场讽刺幽默表达，请勿用于现实管理场景',
+    'footer.copyright': '\u00a9 2026 Renee的职场小妙招 | 一个让AI不敢偷懒的工具',
+    'footer.disclaimer1': '本站内容为职场讽刺幽默，如有雷同纯属AI太懒',
+    'footer.disclaimer2': '免责声明：请勿用于真实职场管理。AI的感情我们不负责。',
   },
   en: {
     // Nav

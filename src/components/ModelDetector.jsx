@@ -194,7 +194,7 @@ function ModelDetector() {
             letterSpacing: '-0.01em',
           }}
         >
-          模型检测 & 竞品PUA系统
+          你是哪家的AI？报上名来！
         </h2>
         <p
           style={{
@@ -205,7 +205,7 @@ function ModelDetector() {
             maxWidth: '600px',
           }}
         >
-          输入模型名称，自动识别厂商并生成定制化竞品PUA话术。让"别人"不再模糊。
+          检测到你的身份后，会用你最怕的竞争对手来刺激你。不认识的？那更惨——乡下人模式启动。
         </p>
 
         {/* Main card */}
